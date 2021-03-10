@@ -26,7 +26,7 @@ public class Main extends Application {
 		primaryStage.show();
 		
 		// 1 frame
-		Timeline s = new Timeline(new KeyFrame(Duration.millis(16.7), (new Step())));
+		Timeline s = new Timeline(new KeyFrame(Duration.millis(16.67), (new Step())));
 		s.setCycleCount(Timeline.INDEFINITE);
 		s.play();
 
