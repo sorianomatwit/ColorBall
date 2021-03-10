@@ -24,7 +24,8 @@ public class Main extends Application {
 		primaryStage.setTitle("Platformer");
 		primaryStage.setScene(new Scene(pane,200,200));
 		primaryStage.show();
-		// tick
+		
+		// 1 frame
 		Timeline s = new Timeline(new KeyFrame(Duration.millis(16.7), (new Step())));
 		s.setCycleCount(Timeline.INDEFINITE);
 		s.play();
