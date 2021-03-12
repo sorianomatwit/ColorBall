@@ -3,6 +3,7 @@ import java.util.Random;
 
 import javafx.scene.shape.Circle;
 
+
 public class Player {
 	private double radius;
 	//position 
