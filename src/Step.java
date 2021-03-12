@@ -7,6 +7,7 @@ public class Step implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent arg0) {
+		//whatever goes in here will happen the 
 		framerate++;
 		System.out.printf("%d%n",framerate);
 	}
