@@ -16,7 +16,7 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 	
-	int game_diff = 1;
+	int game_diff = 3;
 	public static void main(String[] args) {
 		launch(args);
 
@@ -25,7 +25,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		ColorPicker c = new ColorPicker(7);
+		ColorPicker c = new ColorPicker(game_diff);
 		ArrayList<Wallpiece> wall = new ArrayList<Wallpiece>();
 		for(int i = 0; i < c.numOfColors;i++) {
 			wall.add(new Wallpiece(c.chosenColors.get(i),i,100));
@@ -56,8 +56,16 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent arg0) {
 				//everything here hapopens every frame
-				for(Wallpiece w: wall) {
+				// wall movement
+				for(int i = 0; i < wall.size();i++) {
+					Wallpiece w = wall.get(i);
 					w.display();
+					if(w.getX() < 0) {
+						w.Update(scene.getWidth(),(0+ i*heights),heights);
+						c.reSelect();
+						w.setColor(c.chosenColors.get(i));
+					}
+					
 				}
 			}
 			

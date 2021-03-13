@@ -31,16 +31,17 @@ public class ColorPicker {
 	 */
 	protected void reSelect() {
 		chosenColors.clear();
-		for (int i = 0; i < numOfColors; i++) {
-			chosenColors.add(ColorList[rand.nextInt(ColorList.length)]);
-		}
-		for (int i = 0; i < chosenColors.size(); i++) {
-			Color c = chosenColors.get(i);
-			for (int k = 0; k < chosenColors.size(); k++) {
-				Color c1 = chosenColors.get(k);
-				if (c.equals(c1) && i != k) {
-					chosenColors.remove(k);
-					chosenColors.add(ColorList[rand.nextInt(ColorList.length)]);
+		while(chosenColors.size() != numOfColors) {
+			for (int i = 0; i < numOfColors; i++) {
+				chosenColors.add(ColorList[rand.nextInt(ColorList.length)]);
+			}
+			for (int i = 0; i < chosenColors.size(); i++) {
+				Color c = chosenColors.get(i);
+				for (int k = 0; k < chosenColors.size(); k++) {
+					Color c1 = chosenColors.get(k);
+					if (c == c1 && i != k) {
+						chosenColors.remove(k);
+					}
 				}
 			}
 		}

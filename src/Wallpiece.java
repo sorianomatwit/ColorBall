@@ -31,4 +31,8 @@ public class Wallpiece extends Rectangle{
 		this.height = height;
 	}
 	
+	public void setColor(Color c) {
+		color = c;
+	}
+	
 }
