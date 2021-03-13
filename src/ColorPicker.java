@@ -47,13 +47,5 @@ public abstract class ColorPicker {
 		}
 	}
 	
-	/**
-	 * also can use chosenColors.size()
-	 * @return (int) number of colors 
-	 */
-	protected int getNumOfColors() {
-		return numOfColors;
-	}
-	
 	
 }

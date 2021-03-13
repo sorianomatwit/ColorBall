@@ -1,6 +1,7 @@
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -17,16 +18,31 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		Wall w = new Wall();
+		
+		
 		Pane pane = new Pane();
 		
 		
-		
+		Scene scene = new Scene(pane,500,500);
 		primaryStage.setTitle("Platformer");
-		primaryStage.setScene(new Scene(pane,200,200));
+		primaryStage.setScene(scene);
 		primaryStage.show();
 		
+		w.CreateWall(scene);
+		//this well happen every frame
+		EventHandler<ActionEvent> step = new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		
 		// 1 frame
-		Timeline s = new Timeline(new KeyFrame(Duration.millis(16.67), (new Step())));
+		Timeline s = new Timeline(new KeyFrame(Duration.millis(16.67), (step)));
 		s.setCycleCount(Timeline.INDEFINITE);
 		s.play();
 
