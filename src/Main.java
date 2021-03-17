@@ -18,6 +18,7 @@ import javafx.util.Duration;
 public class Main extends Application {
 	
 	int game_diff = 3;
+	boolean toggle = true;
 	public static void main(String[] args) {
 		launch(args);
 
@@ -39,7 +40,7 @@ public class Main extends Application {
 		
 		
 		Pane pane = new Pane();
-		boolean toggle = true; //determines ball state
+		 //determines ball state
 		
 		pane.getChildren().addAll(wall);
 		pane.getChildren().add(b.getGraphic());
@@ -87,12 +88,13 @@ public class Main extends Application {
 		pane.requestFocus();			 		
 		pane.setOnKeyPressed(e -> { 
 			if (e.getCode() == KeyCode.SPACE) {
-				if (toggle == true) {	
-					
-				}else {//toggle = false;
-					
-				}
-			
+				if(toggle) toggle = false;
+			}
+
+		});
+		pane.setOnKeyReleased(e -> { 
+			if (e.getCode() == KeyCode.SPACE) {
+				if(!toggle) toggle = true;
 			}
 
 		});
