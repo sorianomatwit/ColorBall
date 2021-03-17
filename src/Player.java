@@ -16,7 +16,7 @@ public class Player {
 	private double maxY;
 	
 	//graphic 
-	Circle graphic = null;
+	Circle graphic = new Circle();
 	
 	//random number generator
 	private Random rand = new Random();
