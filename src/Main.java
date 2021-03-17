@@ -88,17 +88,18 @@ public class Main extends Application {
 		pane.requestFocus();			 		
 		pane.setOnKeyPressed(e -> { 
 			if (e.getCode() == KeyCode.SPACE) {
-				if(toggle) toggle = false;
+				if(toggle) { toggle = false;}
+				else {toggle = true;}
 			}
 
 		});
-		pane.setOnKeyReleased(e -> { 
+		/**pane.setOnKeyReleased(e -> { 
 			if (e.getCode() == KeyCode.SPACE) {
 				if(!toggle) toggle = true;
 			}
 
 		});
-		
+*/		
 		
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
