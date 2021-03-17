@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -26,6 +27,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		
 		ColorPicker c = new ColorPicker(game_diff);
+		Player b = new Player(20,100,100);
+		b.setBoundary(500, 500);
 		ArrayList<Wallpiece> wall = new ArrayList<Wallpiece>();
 		for(int i = 0; i < c.numOfColors;i++) {
 			wall.add(new Wallpiece(c.chosenColors.get(i),i,100));
@@ -36,8 +39,11 @@ public class Main extends Application {
 		
 		
 		Pane pane = new Pane();
+		boolean toggle = true; //determines ball state
 		
 		pane.getChildren().addAll(wall);
+		pane.getChildren().add(b.getGraphic());
+
 		Scene scene = new Scene(pane,500,500);
 		primaryStage.setTitle("Platformer");
 		primaryStage.setScene(scene);
@@ -55,7 +61,7 @@ public class Main extends Application {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				//everything here hapopens every frame
+				//everything here happens every frame
 				// wall movement
 				for(int i = 0; i < wall.size();i++) {
 					Wallpiece w = wall.get(i);
@@ -66,7 +72,8 @@ public class Main extends Application {
 						w.setColor(c.chosenColors.get(i));
 					}
 					
-				}
+				}// wall loop closed
+				if (toggle) b.move(0.125); // move the ball 
 			}
 			
 		};
@@ -76,6 +83,21 @@ public class Main extends Application {
 		s.setCycleCount(Timeline.INDEFINITE);
 		s.play();
 
+
+		pane.requestFocus();			 		
+		pane.setOnKeyPressed(e -> { 
+			if (e.getCode() == KeyCode.SPACE) {
+				if (toggle == true) {	
+					
+				}else {//toggle = false;
+					
+				}
+			
+			}
+
+		});
+		
+		
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			@Override
