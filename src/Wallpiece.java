@@ -3,13 +3,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Wallpiece extends Rectangle{
+	Rectangle graphic;
 	Color color;
 	int label;
 	double x;
 	double y;
 	double height;
 	public Wallpiece(Color c,int index,double h) {
-		super(100,100,25,h);
 		color = c;
 		label = index;
 		x = 100;

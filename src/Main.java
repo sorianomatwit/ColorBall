@@ -89,10 +89,11 @@ public class Main extends Application {
 		pane.setOnKeyPressed(e -> { 
 			if (e.getCode() == KeyCode.SPACE) {
 				toggle = !toggle;
+				if(toggle) { toggle = false;}
+				else {toggle = true;}
 			}
 
 		});
-		
 		
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
