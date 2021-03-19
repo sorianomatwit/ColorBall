@@ -44,7 +44,7 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
-		b.setBoundary(scene.getWidth(), scene.getHeight());
+		
 		
 		
 		
@@ -56,10 +56,15 @@ public class Main extends Application {
 				
 				//everything here happens every frame
 				// wall movement
-				attacker.setHeights(scene);
-				//attacker.display();
-				attacker.Update();
+				b.setBoundary(scene.getWidth(), scene.getHeight());
 				if (toggle) b.move(0.125); // move the ball 
+				
+				attacker.setHeights(scene);
+				attacker.display();
+				attacker.Update();
+				attacker.setSpd(scene.getWidth()*0.006);
+				
+				
 			}
 			
 		};
@@ -74,10 +79,11 @@ public class Main extends Application {
 		pane.setOnKeyPressed(e -> { 
 			if (e.getCode() == KeyCode.SPACE) {
 				toggle = !toggle;
-				if(toggle) { toggle = false;}
-				else {toggle = true;}
 			}
-
+			if(e.getCode() == KeyCode.A) {
+				gameDiff++;
+				attacker.setDifficulty(gameDiff);
+			}
 		});
 		
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
