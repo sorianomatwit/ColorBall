@@ -4,7 +4,7 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class ColorPicker {
+abstract public class ColorPicker {
 
 	private Random rand;
 	// list of colors to choose from
@@ -17,14 +17,14 @@ public class ColorPicker {
 	// numbers of colors used
 	protected int numOfColors;
 
-	protected ColorPicker(int numof) {
+	protected ColorPicker(int num) {
+		numOfColors = num;
 		// initialize random
 		rand = new Random();
-		numOfColors = numof;
 		// select colors
 		reSelect();
 	}
-
+	
 	/**
 	 * add colors to chosencolors in order to know what colors to use and select
 	 * colors at random

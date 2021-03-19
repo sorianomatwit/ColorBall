@@ -17,7 +17,7 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 	
-	int game_diff = 3;
+	int gameDiff = 3;
 	boolean toggle = true;
 	public static void main(String[] args) {
 		launch(args);
@@ -26,23 +26,17 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
-		ColorPicker c = new ColorPicker(game_diff);
 		Player b = new Player(20,100,100);
-		b.setBoundary(500, 500);
-		ArrayList<Wallpiece> wall = new ArrayList<Wallpiece>();
-		for(int i = 0; i < c.numOfColors;i++) {
-			wall.add(new Wallpiece(c.chosenColors.get(i),i,100));
-		}
+		Wall attacker = new Wall(gameDiff);
 		
-		Rectangle r = new Rectangle(100,100,100,100);
-		r.setFill(c.chosenColors.get(0));
+		
+		
 		
 		
 		Pane pane = new Pane();
 		 //determines ball state
 		
-		pane.getChildren().addAll(wall);
+		pane.getChildren().addAll(attacker.getGraphic());
 		pane.getChildren().add(b.getGraphic());
 
 		Scene scene = new Scene(pane,500,500);
@@ -50,11 +44,8 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
-		double heights = scene.getHeight()/c.numOfColors;
-		for(int i = 0; i < wall.size();i++) {
-			Wallpiece w = wall.get(i);
-			w.Update(scene.getWidth(),(0+ i*heights),heights);
-		}
+		b.setBoundary(scene.getWidth(), scene.getHeight());
+		
 		
 		
 		//this well happen every frame
@@ -62,18 +53,12 @@ public class Main extends Application {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				
 				//everything here happens every frame
 				// wall movement
-				for(int i = 0; i < wall.size();i++) {
-					Wallpiece w = wall.get(i);
-					w.display();
-					if(w.getX() < 0) {
-						w.Update(scene.getWidth(),(0+ i*heights),heights);
-						c.reSelect();
-						w.setColor(c.chosenColors.get(i));
-					}
-					
-				}// wall loop closed
+				attacker.setHeights(scene);
+				//attacker.display();
+				attacker.Update();
 				if (toggle) b.move(0.125); // move the ball 
 			}
 			
