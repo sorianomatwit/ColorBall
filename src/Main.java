@@ -28,15 +28,12 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Player b = new Player(20, 100, 100);
-		Wall[] attacker = new Wall[2];
-		attacker[0] = new Wall(gameDiff, 0);
-		attacker[1] = new Wall(gameDiff, 1);
-
+		 
+		Wall attacker = new Wall(gameDiff);
+		
 		Pane pane = new Pane();
 
-		for (int i = 0; i < attacker.length; i++) {
-			pane.getChildren().addAll(attacker[i].getGraphic());
-		}
+		pane.getChildren().addAll(attacker.getGraphic());
 		pane.getChildren().add(b.getGraphic());
 
 		Scene scene = new Scene(pane, 500, 500);
@@ -57,12 +54,12 @@ public class Main extends Application {
 					b.move(0.125); // move the ball
 
 				// wall movement
-				for (Wall w : attacker) {
-					w.setHeights(scene);
-					w.display();
-					w.Update();
-					w.setSpd(scene.getWidth() * 0.01);
-				}
+				
+				attacker.setHeights(scene);
+					attacker.Update();
+					attacker.display();
+					
+					attacker.setSpd(scene.getWidth() * 0.01);
 
 			}
 
@@ -81,9 +78,7 @@ public class Main extends Application {
 			// testing code !NOT apart of the game!
 			if (e.getCode() == KeyCode.A) {
 				gameDiff++;
-				for (Wall w : attacker) {
-					w.setDifficulty(gameDiff);
-				}
+				attacker.setDifficulty(gameDiff);
 			}
 		});
 
@@ -92,7 +87,6 @@ public class Main extends Application {
 			@Override
 			public void handle(WindowEvent arg0) {
 				s.stop();
-
 			}
 		});
 

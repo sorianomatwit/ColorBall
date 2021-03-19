@@ -6,20 +6,17 @@ import javafx.scene.shape.Rectangle;
 
 public class Wall extends ColorPicker {
 	private double x;
-	private double offset;
-	private int dist = 0;
 	private double width = 25;
 	private double height;
 	private double start;
 	private double spd;
 	private int maxdifficulty = 7;
-	
+
 	private ArrayList<Rectangle> graphic;
 	private ArrayList<Double> yPos;
 
-	public Wall(int difficulty,int offset) {
+	public Wall(int difficulty) {
 		super(difficulty);
-		dist = offset;
 		graphic = new ArrayList<Rectangle>();
 		yPos = new ArrayList<Double>();
 		setup();
@@ -27,18 +24,19 @@ public class Wall extends ColorPicker {
 	}
 
 	private void setup() {
+		graphic.clear();
 		for (int i = 0; i < maxdifficulty; i++) {
 			graphic.add(new Rectangle(25, 100));
 		}
 	}
 
 	public void display() {
-		
 		for (int k = 0; k < graphic.size(); k++) {
 			Rectangle r = graphic.get(k);
 			if (k < numOfColors) {
+
 				r.setFill(chosenColors.get(k));
-				r.setX(x+offset);
+				r.setX(x);
 				r.setY(yPos.get(k));
 				r.setHeight(height);
 			} else {
@@ -49,12 +47,13 @@ public class Wall extends ColorPicker {
 	}
 
 	public void Update() {
-		if (x+offset > -width) {
+		if (x > -(width)) {
 			x += -spd;
 		} else {
-			x = start+offset;
+			x = start;
 			reSelect();
 		}
+
 	}
 
 	// setters
@@ -66,7 +65,7 @@ public class Wall extends ColorPicker {
 			yPos.add(height * i);
 		}
 		start = s.getWidth();
-		offset = (start/3)*dist;
+		//setup();
 //		for(int i = 0; i < yPos.size();i++) {
 //			System.out.printf("ypos: %f%nypos size: %d%n",yPos.get(i),yPos.size());;
 //		}
@@ -92,6 +91,10 @@ public class Wall extends ColorPicker {
 
 	public ArrayList<Rectangle> getGraphic() {
 		return graphic;
+	}
+
+	public double getX() {
+		return x;
 	}
 
 }
