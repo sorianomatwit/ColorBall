@@ -16,9 +16,10 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	
-	int gameDiff = 3;//max difficulty is going to be 7
+
+	int gameDiff = 3;// max difficulty is going to be 7
 	boolean toggle = true;
+
 	public static void main(String[] args) {
 		launch(args);
 
@@ -26,68 +27,66 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Player b = new Player(20,100,100);
-		Wall attacker = new Wall(gameDiff);
-		
-		
-		
-		
-		
+		Player b = new Player(20, 100, 100);
+		Wall[] attacker = new Wall[2];
+		attacker[0] = new Wall(gameDiff, 0);
+		attacker[1] = new Wall(gameDiff, 1);
+
 		Pane pane = new Pane();
-		 
-		
-		pane.getChildren().addAll(attacker.getGraphic());
+
+		for (int i = 0; i < attacker.length; i++) {
+			pane.getChildren().addAll(attacker[i].getGraphic());
+		}
 		pane.getChildren().add(b.getGraphic());
 
-		Scene scene = new Scene(pane,500,500);
+		Scene scene = new Scene(pane, 500, 500);
 		primaryStage.setTitle("Platformer");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
-		
-		
-		
-		
-		//this well happen every frame
+
+		// this well happen every frame
 		EventHandler<ActionEvent> step = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				
-				//everything here happens every frame
-				
-				b.setBoundary(scene.getWidth(), scene.getHeight());//determines ball state
-				if (toggle) b.move(0.125); // move the ball 
-				
+
+				// everything here happens every frame
+
+				b.setBoundary(scene.getWidth(), scene.getHeight());// determines ball state
+				if (toggle)
+					b.move(0.125); // move the ball
+
 				// wall movement
-				attacker.setHeights(scene);
-				attacker.display();
-				attacker.Update();
-				attacker.setSpd(scene.getWidth()*0.01);
-				
-				
+				for (Wall w : attacker) {
+					w.setHeights(scene);
+					w.display();
+					w.Update();
+					w.setSpd(scene.getWidth() * 0.01);
+				}
+
 			}
-			
+
 		};
-		
+
 		// 1 frame
 		Timeline s = new Timeline(new KeyFrame(Duration.millis(16.67), (step)));
 		s.setCycleCount(Timeline.INDEFINITE);
 		s.play();
 
-
-		pane.requestFocus();			 		
-		pane.setOnKeyPressed(e -> { 
+		pane.requestFocus();
+		pane.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.SPACE) {
 				toggle = !toggle;
 			}
-			//testing code !NOT apart of the game!
-			if(e.getCode() == KeyCode.A) {
+			// testing code !NOT apart of the game!
+			if (e.getCode() == KeyCode.A) {
 				gameDiff++;
-				attacker.setDifficulty(gameDiff);
+				for (Wall w : attacker) {
+					w.setDifficulty(gameDiff);
+				}
 			}
 		});
-		
+
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			@Override
