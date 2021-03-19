@@ -4,7 +4,7 @@ import java.util.Random;
 import javafx.scene.shape.Circle;
 
 
-public class Player {
+public class Player extends ColorPicker{
 	private double radius;
 	//position 
 	private double x;
@@ -12,7 +12,6 @@ public class Player {
 	//movement 
 	private double vy;
 	//bounds of the screen
-	private double maxX;
 	private double maxY;
 	
 	//graphic 
@@ -22,10 +21,11 @@ public class Player {
 	private Random rand = new Random();
 	
 	//constructor
-	public Player(double radius, double x, double y) {
-		this.radius = radius;
-		this.x = x;
-		this.y = y;
+	public Player(int difficulty) {
+		super(difficulty);
+		this.radius = 20;
+		this.x = 100;
+		this.y = 100;
 		
 		vy=50;
 		
@@ -33,10 +33,12 @@ public class Player {
 	}
 	
 	public Circle getGraphic() {
+		
 		return graphic;
+		
 	}
 	
-	public void setBoundary(double x, double y) {
+	public void setBoundary( double y) {
 		maxY=y;
 		
 	}
@@ -57,5 +59,6 @@ public class Player {
 	private void updateGraphic() {
 		graphic.setCenterX(x);
 		graphic.setCenterY(y);
+		
 	}
 }

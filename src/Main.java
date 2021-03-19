@@ -27,7 +27,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Player b = new Player(20, 100, 100);
+		Player b = new Player(gameDiff);
 		 
 		Wall attacker = new Wall(gameDiff);
 		
@@ -49,14 +49,14 @@ public class Main extends Application {
 
 				// everything here happens every frame
 
-				b.setBoundary(scene.getWidth(), scene.getHeight());// determines ball state
+				b.setBoundary(scene.getHeight());// determines ball state
 				if (toggle)
 					b.move(0.125); // move the ball
 
 				// wall movement
 				
 				attacker.setHeights(scene);
-					attacker.Update();
+					attacker.Update(b);
 					attacker.display();
 					
 					attacker.setSpd(scene.getWidth() * 0.01);

@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 abstract public class ColorPicker {
 
-	private Random rand;
+	protected Random rand;
 	// list of colors to choose from
 	protected Color[] ColorList = { Color.AQUA, Color.HOTPINK, Color.PURPLE, Color.LIGHTGRAY, Color.LIME, Color.RED,
 			Color.ORANGE, Color.YELLOW };

@@ -46,12 +46,13 @@ public class Wall extends ColorPicker {
 		}
 	}
 
-	public void Update() {
+	public void Update(Player p) {
 		if (x > -(width)) {
 			x += -spd;
 		} else {
 			x = start;
 			reSelect();
+			p.reSelect();
 		}
 
 	}
