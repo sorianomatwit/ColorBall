@@ -17,7 +17,7 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 	
-	int gameDiff = 3;
+	int gameDiff = 3;//max difficulty is going to be 7
 	boolean toggle = true;
 	public static void main(String[] args) {
 		launch(args);
@@ -34,7 +34,7 @@ public class Main extends Application {
 		
 		
 		Pane pane = new Pane();
-		 //determines ball state
+		 
 		
 		pane.getChildren().addAll(attacker.getGraphic());
 		pane.getChildren().add(b.getGraphic());
@@ -55,14 +55,15 @@ public class Main extends Application {
 			public void handle(ActionEvent arg0) {
 				
 				//everything here happens every frame
-				// wall movement
-				b.setBoundary(scene.getWidth(), scene.getHeight());
+				
+				b.setBoundary(scene.getWidth(), scene.getHeight());//determines ball state
 				if (toggle) b.move(0.125); // move the ball 
 				
+				// wall movement
 				attacker.setHeights(scene);
 				attacker.display();
 				attacker.Update();
-				attacker.setSpd(scene.getWidth()*0.006);
+				attacker.setSpd(scene.getWidth()*0.01);
 				
 				
 			}
@@ -80,6 +81,7 @@ public class Main extends Application {
 			if (e.getCode() == KeyCode.SPACE) {
 				toggle = !toggle;
 			}
+			//testing code !NOT apart of the game!
 			if(e.getCode() == KeyCode.A) {
 				gameDiff++;
 				attacker.setDifficulty(gameDiff);

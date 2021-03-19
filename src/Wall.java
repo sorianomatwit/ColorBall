@@ -9,7 +9,8 @@ public class Wall extends ColorPicker {
 	private double width = 25;
 	private double height;
 	private double start;
-	private double spd = 3;
+	private double spd;
+	private int maxdifficulty = 7;
 	private ArrayList<Rectangle> graphic;
 	private ArrayList<Double> yPos;
 
@@ -18,26 +19,33 @@ public class Wall extends ColorPicker {
 
 		graphic = new ArrayList<Rectangle>();
 		yPos = new ArrayList<Double>();
-		for (int i = 0; i < numOfColors; i++) {
-			graphic.add(new Rectangle(25, 100));
-		}
+		setup();
 
 	}
-	
-	
-	public void display() {
 
+	private void setup() {
+		for (int i = 0; i < maxdifficulty; i++) {
+			graphic.add(new Rectangle(25, 100));
+		}
+	}
+
+	public void display() {
 		for (int k = 0; k < graphic.size(); k++) {
 			Rectangle r = graphic.get(k);
-			r.setFill(chosenColors.get(k));
-			r.setX(x);
-			r.setY(yPos.get(k));
-			r.setHeight(height);
+			if (k < numOfColors) {
+				r.setFill(chosenColors.get(k));
+				r.setX(x);
+				r.setY(yPos.get(k));
+				r.setHeight(height);
+			} else {
+				r.setX(-100);
+				r.setY(-100);
+			}
 		}
 	}
 
 	public void Update() {
-		if(x > -25) {
+		if (x > -25) {
 			x += -spd;
 		} else {
 			x = start;
@@ -47,11 +55,11 @@ public class Wall extends ColorPicker {
 
 	// setters
 	public void setHeights(Scene s) {
-		height = s.getHeight()/numOfColors;
+		height = s.getHeight() / numOfColors;
 		yPos.clear();
 		yPos.add(0.0);
-		for(int i = 1; i < numOfColors;i++) {
-			yPos.add(height*i);
+		for (int i = 1; i < numOfColors; i++) {
+			yPos.add(height * i);
 		}
 		start = s.getWidth();
 //		for(int i = 0; i < yPos.size();i++) {
@@ -65,18 +73,19 @@ public class Wall extends ColorPicker {
 
 	public void setDifficulty(int a) {
 		numOfColors = a;
-		for(int i = 0; i < a - graphic.size();i++) {
-			graphic.add(new Rectangle(25,100));
+		for (int i = 0; i < a - graphic.size(); i++) {
+			graphic.add(new Rectangle(25, 100));
 		}
 		reSelect();
-		for(int i = 0; i < chosenColors.size();i++) {
-			System.out.printf("Color: "+chosenColors.get(i)+"%nchosenColors size: %d%n",chosenColors.size());;
+		for (int i = 0; i < chosenColors.size(); i++) {
+			System.out.printf("Color: " + chosenColors.get(i) + "%nchosenColors size: %d%n", chosenColors.size());
+			;
 		}
 	}
-	
-	//getters
-	
-	public ArrayList<Rectangle> getGraphic(){
+
+	// getters
+
+	public ArrayList<Rectangle> getGraphic() {
 		return graphic;
 	}
 
