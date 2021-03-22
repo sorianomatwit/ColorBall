@@ -52,7 +52,7 @@ public class Main extends Application {
 				b.setBoundary(scene.getHeight());// determines ball state
 				if (toggle)
 					b.move(0.125); // move the ball
-
+				if(attacker.getX() >= scene.getWidth()) b.setColor(attacker);
 				// wall movement
 				
 				attacker.setHeights(scene);
@@ -60,7 +60,9 @@ public class Main extends Application {
 					attacker.display();
 					
 					attacker.setSpd(scene.getWidth() * 0.01);
-
+					if(attacker.collide(b)){
+						b.graphic.setFill(Color.BLACK);
+					}
 			}
 
 		};

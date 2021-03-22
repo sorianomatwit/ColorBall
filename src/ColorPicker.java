@@ -24,14 +24,14 @@ abstract public class ColorPicker {
 		// select colors
 		reSelect();
 	}
-	
+
 	/**
 	 * add colors to chosencolors in order to know what colors to use and select
 	 * colors at random
 	 */
 	protected void reSelect() {
 		chosenColors.clear();
-		while(chosenColors.size() != numOfColors) {
+		while (chosenColors.size() != numOfColors) {
 			for (int i = 0; i < numOfColors; i++) {
 				chosenColors.add(ColorList[rand.nextInt(ColorList.length)]);
 			}
@@ -58,6 +58,10 @@ abstract public class ColorPicker {
 		for (int i = 0; i < numOfColors; i++) {
 			chosenColors.add(ColorList[rand.nextInt(ColorList.length)]);
 		}
+	}
+
+	public ArrayList<Color> getchosenColors() {
+		return chosenColors;
 	}
 
 }

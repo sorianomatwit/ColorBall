@@ -11,7 +11,7 @@ public class Wall extends ColorPicker {
 	private double start;
 	private double spd;
 	private int maxdifficulty = 7;
-
+	private double threshold = -width;
 	private ArrayList<Rectangle> graphic;
 	private ArrayList<Double> yPos;
 
@@ -66,7 +66,7 @@ public class Wall extends ColorPicker {
 			yPos.add(height * i);
 		}
 		start = s.getWidth();
-		//setup();
+		// setup();
 //		for(int i = 0; i < yPos.size();i++) {
 //			System.out.printf("ypos: %f%nypos size: %d%n",yPos.get(i),yPos.size());;
 //		}
@@ -87,7 +87,23 @@ public class Wall extends ColorPicker {
 			;
 		}
 	}
+	// Check collision
 
+	public boolean collide(Player p) {
+
+		for (int k = 0; k < numOfColors; k++) {
+			Rectangle r = graphic.get(k);
+
+			if (x < p.getX()+p.getRadius() && x > p.getX()-p.getRadius() && 
+					yPos.get(k) < p.getY() + p.getRadius() && yPos.get(k)+height > p.getY() - p.getRadius()) {
+				if (chosenColors.get(k) != p.getColor()) {
+					System.out.printf(chosenColors.get(k)+" != "+p.getColor()+"%n");
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	// getters
 
 	public ArrayList<Rectangle> getGraphic() {
@@ -96,6 +112,10 @@ public class Wall extends ColorPicker {
 
 	public double getX() {
 		return x;
+	}
+
+	public double getThreshold() {
+		return threshold;
 	}
 
 }
