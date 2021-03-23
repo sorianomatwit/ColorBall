@@ -52,7 +52,7 @@ public class Wall extends ColorPicker {
 		} else {
 			x = start;
 			reSelect();
-			p.reSelect();
+			p.reSelect(chosenColors.size());
 		}
 
 	}
@@ -96,7 +96,6 @@ public class Wall extends ColorPicker {
 
 			if (x < p.getX()+p.getRadius() && x > p.getX()-p.getRadius() && 
 					yPos.get(k) < p.getY() + p.getRadius() && yPos.get(k)+height > p.getY() - p.getRadius()) {
-				System.out.printf("%d != %d%n",p.getColor(),k);
 				if(p.getColor() != k) return true;
 				}
 			}
