@@ -16,9 +16,10 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	
-	int gameDiff = 3;
+
+	int gameDiff = 3;// max difficulty is going to be 7
 	boolean toggle = true;
+
 	public static void main(String[] args) {
 		launch(args);
 
@@ -26,66 +27,68 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Player b = new Player(20,100,100);
+		Player b = new Player(gameDiff);
+		 
 		Wall attacker = new Wall(gameDiff);
 		
-		
-		
-		
-		
 		Pane pane = new Pane();
-		 //determines ball state
-		
+
 		pane.getChildren().addAll(attacker.getGraphic());
 		pane.getChildren().add(b.getGraphic());
 
-		Scene scene = new Scene(pane,500,500);
+		Scene scene = new Scene(pane, 500, 500);
 		primaryStage.setTitle("Platformer");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
-		b.setBoundary(scene.getWidth(), scene.getHeight());
-		
-		
-		
-		//this well happen every frame
+
+		// this well happen every frame
 		EventHandler<ActionEvent> step = new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				
-				//everything here happens every frame
+
+				// everything here happens every frame
+
+				b.setBoundary(scene.getHeight());// determines ball state
+				if (toggle)
+					b.move(0.125); // move the ball
+				if(attacker.getX() >= scene.getWidth()) b.setColor(attacker);
 				// wall movement
+				
 				attacker.setHeights(scene);
-				//attacker.display();
-				attacker.Update();
-				if (toggle) b.move(0.125); // move the ball 
+					attacker.Update(b);
+					attacker.display();
+					
+					attacker.setSpd(scene.getWidth() * 0.01);
+					if(attacker.collide(b)){
+						b.graphic.setFill(Color.BLACK);
+					}
 			}
-			
+
 		};
-		
+
 		// 1 frame
 		Timeline s = new Timeline(new KeyFrame(Duration.millis(16.67), (step)));
 		s.setCycleCount(Timeline.INDEFINITE);
 		s.play();
 
-
-		pane.requestFocus();			 		
-		pane.setOnKeyPressed(e -> { 
+		pane.requestFocus();
+		pane.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.SPACE) {
 				toggle = !toggle;
-				if(toggle) { toggle = false;}
-				else {toggle = true;}
 			}
-
+			// testing code !NOT apart of the game!
+			if (e.getCode() == KeyCode.A) {
+				gameDiff++;
+				attacker.setDifficulty(gameDiff);
+			}
 		});
-		
+
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			@Override
 			public void handle(WindowEvent arg0) {
 				s.stop();
-
 			}
 		});
 

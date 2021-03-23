@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 abstract public class ColorPicker {
 
-	private Random rand;
+	protected Random rand;
 	// list of colors to choose from
 	protected Color[] ColorList = { Color.AQUA, Color.HOTPINK, Color.PURPLE, Color.LIGHTGRAY, Color.LIME, Color.RED,
 			Color.ORANGE, Color.YELLOW };
@@ -24,14 +24,14 @@ abstract public class ColorPicker {
 		// select colors
 		reSelect();
 	}
-	
+
 	/**
 	 * add colors to chosen colors in order to know what colors to use and select
 	 * colors at random
 	 */
 	protected void reSelect() {
 		chosenColors.clear();
-		while(chosenColors.size() != numOfColors) {
+		while (chosenColors.size() != numOfColors) {
 			for (int i = 0; i < numOfColors; i++) {
 				chosenColors.add(ColorList[rand.nextInt(ColorList.length)]);
 			}
@@ -58,6 +58,10 @@ abstract public class ColorPicker {
 		for (int i = 0; i < numOfColors; i++) {
 			chosenColors.add(ColorList[rand.nextInt(ColorList.length)]);
 		}
+	}
+
+	public ArrayList<Color> getchosenColors() {
+		return chosenColors;
 	}
 
 }

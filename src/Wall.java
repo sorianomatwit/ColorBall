@@ -6,58 +6,70 @@ import javafx.scene.shape.Rectangle;
 
 public class Wall extends ColorPicker {
 	private double x;
+	private double width = 25;
 	private double height;
 	private double start;
-	private double spd = 3;
+	private double spd;
+	private int maxdifficulty = 7;
+	private double threshold = -width;
 	private ArrayList<Rectangle> graphic;
 	private ArrayList<Double> yPos;
 
 	public Wall(int difficulty) {
 		super(difficulty);
-
 		graphic = new ArrayList<Rectangle>();
 		yPos = new ArrayList<Double>();
 		setup();
 
 	}
-	
+
 	private void setup() {
 		graphic.clear();
-		for (int i = 0; i < numOfColors; i++) {
+		for (int i = 0; i < maxdifficulty; i++) {
 			graphic.add(new Rectangle(25, 100));
 		}
 	}
-	public void display() {
 
+	public void display() {
 		for (int k = 0; k < graphic.size(); k++) {
 			Rectangle r = graphic.get(k);
-			r.setFill(chosenColors.get(k));
-			r.setX(x);
-			r.setY(yPos.get(k));
-			r.setHeight(height);
+			if (k < numOfColors) {
+
+				r.setFill(chosenColors.get(k));
+				r.setX(x);
+				r.setY(yPos.get(k));
+				r.setHeight(height);
+			} else {
+				r.setX(-100);
+				r.setY(-100);
+			}
 		}
 	}
 
-	public void Update() {
-		if(x < 0) {
+	public void Update(Player p) {
+		if (x > -(width)) {
 			x += -spd;
 		} else {
 			x = start;
+			reSelect();
+			p.reSelect();
 		}
+
 	}
 
 	// setters
 	public void setHeights(Scene s) {
-		height = s.getHeight()/numOfColors;
+		height = s.getHeight() / numOfColors;
 		yPos.clear();
 		yPos.add(0.0);
-		for(int i = 1; i < numOfColors - 1;i++) {
-			yPos.add(height*i);
+		for (int i = 1; i < numOfColors; i++) {
+			yPos.add(height * i);
 		}
 		start = s.getWidth();
-		for(int i = 0; i < yPos.size();i++) {
-			System.out.printf("ypos: %f",yPos.get(i));;
-		}
+		// setup();
+//		for(int i = 0; i < yPos.size();i++) {
+//			System.out.printf("ypos: %f%nypos size: %d%n",yPos.get(i),yPos.size());;
+//		}
 	}
 
 	public void setSpd(double a) {
@@ -66,14 +78,42 @@ public class Wall extends ColorPicker {
 
 	public void setDifficulty(int a) {
 		numOfColors = a;
+		for (int i = 0; i < a - graphic.size(); i++) {
+			graphic.add(new Rectangle(25, 100));
+		}
 		reSelect();
-		setup();
+		for (int i = 0; i < chosenColors.size(); i++) {
+			System.out.printf("Color: " + chosenColors.get(i) + "%nchosenColors size: %d%n", chosenColors.size());
+			;
+		}
 	}
-	
-	//getters
-	
-	public ArrayList<Rectangle> getGraphic(){
+	// Check collision
+
+	public boolean collide(Player p) {
+
+		for (int k = 0; k < numOfColors; k++) {
+			Rectangle r = graphic.get(k);
+
+			if (x < p.getX()+p.getRadius() && x > p.getX()-p.getRadius() && 
+					yPos.get(k) < p.getY() + p.getRadius() && yPos.get(k)+height > p.getY() - p.getRadius()) {
+				System.out.printf("%d != %d%n",p.getColor(),k);
+				if(p.getColor() != k) return true;
+				}
+			}
+		return false;
+	}
+	// getters
+
+	public ArrayList<Rectangle> getGraphic() {
 		return graphic;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getThreshold() {
+		return threshold;
 	}
 
 }
