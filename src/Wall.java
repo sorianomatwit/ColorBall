@@ -52,7 +52,7 @@ public class Wall extends ColorPicker {
 		} else {
 			x = start;
 			reSelect();
-			p.reSelect();
+			p.reSelect(chosenColors.size());
 		}
 
 	}
@@ -93,11 +93,11 @@ public class Wall extends ColorPicker {
 
 		for (int k = 0; k < numOfColors; k++) {
 			Rectangle r = graphic.get(k);
-
+			//check if hitting a rectangle
 			if (x < p.getX()+p.getRadius() && x > p.getX()-p.getRadius() && 
 					yPos.get(k) < p.getY() + p.getRadius() && yPos.get(k)+height > p.getY() - p.getRadius()) {
-				System.out.printf("%d != %d%n",p.getColor(),k);
-				if(p.getColor() != k) return true;
+				//checks if the they are the same color
+				if(p.getColor() != chosenColors.indexOf(r.getFill())) return true;
 				}
 			}
 		return false;

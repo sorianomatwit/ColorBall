@@ -50,8 +50,8 @@ public class Main extends Application {
 				// everything here happens every frame
 
 				b.setBoundary(scene.getHeight());// determines ball state
-				if (toggle)
-					b.move(0.125); // move the ball
+				
+				b.move(scene.getHeight() * 0.00025); // move the ball
 				if(attacker.getX() >= scene.getWidth()) b.setColor(attacker);
 				// wall movement
 				
@@ -60,7 +60,7 @@ public class Main extends Application {
 					attacker.display();
 					
 					attacker.setSpd(scene.getWidth() * 0.01);
-					if(attacker.collide(b)){
+					if(attacker.collide(b)){//you got hit
 						b.graphic.setFill(Color.BLACK);
 					}
 			}
@@ -74,12 +74,17 @@ public class Main extends Application {
 
 		pane.requestFocus();
 		pane.setOnKeyPressed(e -> {
-			if (e.getCode() == KeyCode.SPACE) {
-				toggle = !toggle;
+			if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W) {
+				b.VyUp();
+			} else if (e.getCode() == KeyCode.DOWN || e.getCode() == KeyCode.S) {
+				b.VyDown();
+			}
+			if(e.getCode() == KeyCode.SPACE) {
+				b.flipVy();
 			}
 			// testing code !NOT apart of the game!
 			if (e.getCode() == KeyCode.A) {
-				gameDiff++;
+				if(gameDiff < 7 ) gameDiff++;
 				attacker.setDifficulty(gameDiff);
 			}
 		});
