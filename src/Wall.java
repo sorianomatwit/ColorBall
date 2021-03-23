@@ -96,12 +96,10 @@ public class Wall extends ColorPicker {
 
 			if (x < p.getX()+p.getRadius() && x > p.getX()-p.getRadius() && 
 					yPos.get(k) < p.getY() + p.getRadius() && yPos.get(k)+height > p.getY() - p.getRadius()) {
-				if (chosenColors.get(k) != p.getColor()) {
-					System.out.printf(chosenColors.get(k)+" != "+p.getColor()+"%n");
-					return true;
+				System.out.printf("%d != %d%n",p.getColor(),k);
+				if(p.getColor() != k) return true;
 				}
 			}
-		}
 		return false;
 	}
 	// getters

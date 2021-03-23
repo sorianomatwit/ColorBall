@@ -41,9 +41,9 @@ public class Player extends ColorPicker {
 	}
 
 	public void setColor(Wall w) {
-		graphic.setFill(w.getchosenColors().get(c));
 		c = (int) rand.nextInt(gameDiff);
 		chosenColors = w.getchosenColors();
+		graphic.setFill(w.getchosenColors().get(c));
 	}
 
 	public void setBoundary(double y) {
@@ -82,7 +82,7 @@ public class Player extends ColorPicker {
 	public double getRadius() {
 		return radius;
 	}
-	public Color getColor() {
-		return chosenColors.get(c);
+	public int getColor() {
+		return c;
 	}
 }
