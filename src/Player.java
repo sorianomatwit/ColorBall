@@ -69,7 +69,7 @@ public class Player extends ColorPicker {
 		return radius;
 	}
 	public int getColor() {
-		return c;
+		return chosenColors.indexOf(graphic.getFill());
 	}
 	public Circle getGraphic() {
 
@@ -89,6 +89,8 @@ public class Player extends ColorPicker {
 		maxY = y;
 
 	}
+	
+	//controller whetehr the player wants to move up or down or just change directions
 	public void VyDown() {
 		vy = Math.abs(vy);
 	}
