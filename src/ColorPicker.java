@@ -26,7 +26,7 @@ abstract public class ColorPicker {
 	}
 	
 	/**
-	 * add colors to chosencolors in order to know what colors to use and select
+	 * add colors to chosen colors in order to know what colors to use and select
 	 * colors at random
 	 */
 	protected void reSelect() {
