@@ -1,4 +1,4 @@
 
-public class Abilities {
-	//Use static methods
+abstract public class Abilities {
+	
 }

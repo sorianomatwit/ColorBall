@@ -60,7 +60,8 @@ public class Main extends Application {
 					attacker.display();
 					
 					attacker.setSpd(scene.getWidth() * 0.01);
-					if(attacker.collide(b)){//you got hit
+					if(attacker.collide(b)){
+						//you got hit
 						b.graphic.setFill(Color.BLACK);
 					}
 			}
