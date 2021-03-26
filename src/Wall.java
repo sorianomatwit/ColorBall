@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Wall extends ColorPicker {
+public class Wall extends ColorPicker implements Abilities<Player>{
 	private double x;
 	private double width = 25;
 	private double height;
@@ -56,7 +56,21 @@ public class Wall extends ColorPicker {
 		}
 
 	}
+	// Check collision
 
+		public boolean collide(Player p) {
+
+			for (int k = 0; k < numOfColors; k++) {
+				Rectangle r = graphic.get(k);
+				//check if hitting a rectangle
+				if (x < p.getX()+p.getRadius() && x > p.getX()-p.getRadius() && 
+						yPos.get(k) < p.getY() + p.getRadius() && yPos.get(k)+height > p.getY() - p.getRadius()) {
+					//checks if the they are the same color
+					if(p.getColor() != chosenColors.indexOf(r.getFill())) return true;
+					}
+				}
+			return false;
+		}
 	// setters
 	public void setHeights(Scene s) {
 		height = s.getHeight() / numOfColors;
@@ -87,20 +101,8 @@ public class Wall extends ColorPicker {
 			;
 		}
 	}
-	// Check collision
-
-	public boolean collide(Player p) {
-
-		for (int k = 0; k < numOfColors; k++) {
-			Rectangle r = graphic.get(k);
-			//check if hitting a rectangle
-			if (x < p.getX()+p.getRadius() && x > p.getX()-p.getRadius() && 
-					yPos.get(k) < p.getY() + p.getRadius() && yPos.get(k)+height > p.getY() - p.getRadius()) {
-				//checks if the they are the same color
-				if(p.getColor() != chosenColors.indexOf(r.getFill())) return true;
-				}
-			}
-		return false;
+	public void setX(double a) {
+		x = a;
 	}
 	// getters
 
@@ -115,5 +117,37 @@ public class Wall extends ColorPicker {
 	public double getThreshold() {
 		return threshold;
 	}
+
+	@Override
+	public void invisibilty(Player o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void inverseControls() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void colorSwitch() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void change() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void invincibilty(Player o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 }

@@ -4,7 +4,7 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Player extends ColorPicker {
+public class Player extends ColorPicker implements Abilities{
 	private double radius;
 	// position
 	private double x;
@@ -99,5 +99,45 @@ public class Player extends ColorPicker {
 	}
 	public void flipVy() {
 		vy = -vy;
+	}
+
+
+	// abbilities
+	@Override
+	public void invisibilty() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void inverseControls() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void colorSwitch() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void change() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void invincibilty() {
+		// TODO Auto-generated method stub
+		
 	}
 }
