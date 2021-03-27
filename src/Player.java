@@ -4,7 +4,7 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Player extends ColorPicker implements Abilities{
+public class Player extends ColorPicker implements Abilities<Wall>{
 	private double radius;
 	// position
 	private double x;
@@ -102,9 +102,9 @@ public class Player extends ColorPicker implements Abilities{
 	}
 
 
-	// abbilities
+
 	@Override
-	public void invisibilty() {
+	public void invisibilty(Wall o) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -136,8 +136,9 @@ public class Player extends ColorPicker implements Abilities{
 
 
 	@Override
-	public void invincibilty() {
+	public void invincibilty(Wall o) {
 		// TODO Auto-generated method stub
 		
 	}
+
 }
