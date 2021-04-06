@@ -83,13 +83,25 @@ public class Main extends Application {
 			if(e.getCode() == KeyCode.SPACE) {
 				b.flipVy();
 			}
+			
+			//Ball Visibility (Keyboard Control)
+			Boolean iPress = false;
+			KeyCode iCode = e.getCode();
+			if(iCode == KeyCode.I && !iPress) {
+				iPress = true;
+				(b.getGraphic()).setVisible(false);
+			}
+			else if (iPress && iCode != KeyCode.I){
+				iPress = false;
+				(b.getGraphic()).setVisible(true);
+			}
+			
 			// testing code !NOT apart of the game!
 			if (e.getCode() == KeyCode.A) {
 				if(gameDiff < 7 ) gameDiff++;
 				attacker.setDifficulty(gameDiff);
 			}
 		});
-
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			@Override
