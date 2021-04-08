@@ -3,7 +3,7 @@ import java.util.Random;
 
 import javafx.scene.shape.Circle;
 
-public class Player extends ColorPicker implements Abilities<Wall>{
+public class Player extends ColorPicker implements Activator{
 	private double radius;
 	// position
 	private double x;
@@ -16,43 +16,57 @@ public class Player extends ColorPicker implements Abilities<Wall>{
 	int gameDiff;
 	// graphic
 	Circle graphic = new Circle();
-
+	// player lives
+	private int lives = 3;
+	boolean alive = true;
+	private boolean active = false;
+	
 	// random number generator
 	private Random rand = new Random();
-
+	
+	
 	// constructor
-	public Player(int difficulty) {
+	public Player(int difficulty, int lives) {
 		super(difficulty);
 		gameDiff = difficulty;
 		this.radius = 20;
 		this.x = 100;
 		this.y = 100;
-
+		this.lives = lives;
 		vy = 50;
 
 		graphic = new Circle(x, y, radius);
 	}
-
-	
 
 	public void move(double dt) {
 		// update x and y (solution to a differential equation)
 		y = y + vy * dt;
 		// top/bottom walls
 		if (y + radius > maxY || y - radius <= 0) {
-			if(y + radius > maxY) y = maxY -  radius;
-			if(y - radius <= 0) y = radius;
+			if (y + radius > maxY)
+				y = maxY - radius;
+			if (y - radius <= 0)
+				y = radius;
 			// do the bounce
 			vy = -vy;
 
 		}
 		updateGraphic();
+
+		// life stuff
+		if (lives < 0) {
+			alive = false;
+		}
 	}
 
 	private void updateGraphic() {
 		graphic.setCenterX(x);
 		graphic.setCenterY(y);
+		if(!active) {
+			graphic.setVisible(true);
+		}
 		
+
 	}
 
 	// getters
@@ -64,19 +78,34 @@ public class Player extends ColorPicker implements Abilities<Wall>{
 		return y;
 
 	}
+
 	public double getRadius() {
 		return radius;
 	}
+
 	public int getColor() {
 		return chosenColors.indexOf(graphic.getFill());
 	}
+
 	public Circle getGraphic() {
-
 		return graphic;
+	}
 
+	public int getLives() {
+		return lives;
+	}
+
+	public boolean isAlive() {
+		return alive;
 	}
 	
-	//setters
+	public boolean isActive() {
+		return active;
+	}
+	// setters
+	public void setActive(boolean activate) {
+		active = activate;
+	}
 	public void setColor(Wall w) {
 		c = (int) rand.nextInt(gameDiff);
 		chosenColors = w.getchosenColors();
@@ -85,58 +114,30 @@ public class Player extends ColorPicker implements Abilities<Wall>{
 
 	public void setBoundary(double y) {
 		maxY = y;
-
 	}
-	
-	//controller whetehr the player wants to move up or down or just change directions
+
+	// collision action;
+	public void gotHit() {
+		lives--;
+	}
+
+	// controller whetehr the player wants to move up or down or just change
+	// directions
 	public void VyDown() {
 		vy = Math.abs(vy);
 	}
+
 	public void VyUp() {
 		vy = -Math.abs(vy);
 	}
+
 	public void flipVy() {
 		vy = -vy;
 	}
-
-
-
-	@Override
-	public void invisibilty(Wall o) {
-		// TODO Auto-generated method stub
-		
+	
+	// player abilities
+	public void invisible() {
+		graphic.setVisible(false);
+		active = true;
 	}
-
-
-
-	@Override
-	public void inverseControls() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public void colorSwitch() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public void change() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public void invincibilty(Wall o) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

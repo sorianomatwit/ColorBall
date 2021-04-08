@@ -3,17 +3,23 @@ import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 
-public class Wall extends ColorPicker implements Abilities<Player>{
+public class Wall extends ColorPicker implements Activator{
 	private double x;
 	private double width = 25;
 	private double height;
+	private double hspd;
+	private double vspd;
+	private ArrayList<Double> yPos;
+	
 	private double start;
-	private double spd;
+	
 	private int maxdifficulty = 7;
 	private double threshold = -width;
 	private ArrayList<Rectangle> graphic;
-	private ArrayList<Double> yPos;
-
+	
+	private Scene game;
+	
+	private boolean active = false;
 	public Wall(int difficulty) {
 		super(difficulty);
 		graphic = new ArrayList<Rectangle>();
@@ -38,6 +44,9 @@ public class Wall extends ColorPicker implements Abilities<Player>{
 				r.setX(x);
 				r.setY(yPos.get(k));
 				r.setHeight(height);
+				if(k == 0|| k== 1) {
+					r.setHeight(height + 40);
+				}
 			} else {
 				r.setX(-100);
 				r.setY(-100);
@@ -47,29 +56,32 @@ public class Wall extends ColorPicker implements Abilities<Player>{
 
 	public void Update(Player p) {
 		if (x > -(width)) {
-			x += -spd;
+			x += -hspd;
 		} else {
 			x = start;
-			reSelect();
+			reSelect(numOfColors);
 			p.reSelect(chosenColors.size());
 		}
 
 	}
 	// Check collision
 
-		public boolean collide(Player p) {
+	public boolean collide(Player p) {
 
-			for (int k = 0; k < numOfColors; k++) {
-				Rectangle r = graphic.get(k);
-				//check if hitting a rectangle
-				if (x < p.getX()+p.getRadius() && x > p.getX()-p.getRadius() && 
-						yPos.get(k) < p.getY() + p.getRadius() && yPos.get(k)+height > p.getY() - p.getRadius()) {
-					//checks if the they are the same color
-					if(p.getColor() != chosenColors.indexOf(r.getFill())) return true;
-					}
+		for (int k = 0; k < numOfColors; k++) {
+			Rectangle r = graphic.get(k);
+			// check if hitting a rectangle
+			if (x < p.getX() + p.getRadius() && x > p.getX() - p.getRadius() && yPos.get(k) < p.getY() + p.getRadius()
+					&& yPos.get(k) + height > p.getY() - p.getRadius()) {
+				// checks if the they are the same color
+				if (p.getColor() != chosenColors.indexOf(r.getFill())) {
+					return true;
 				}
-			return false;
+			}
 		}
+		return false;
+	}
+
 	// setters
 	public void setHeights(Scene s) {
 		height = s.getHeight() / numOfColors;
@@ -79,6 +91,7 @@ public class Wall extends ColorPicker implements Abilities<Player>{
 			yPos.add(height * i);
 		}
 		start = s.getWidth();
+		game = s;
 		// setup();
 //		for(int i = 0; i < yPos.size();i++) {
 //			System.out.printf("ypos: %f%nypos size: %d%n",yPos.get(i),yPos.size());;
@@ -86,7 +99,8 @@ public class Wall extends ColorPicker implements Abilities<Player>{
 	}
 
 	public void setSpd(double a) {
-		spd = a;
+		hspd = a;
+		vspd = a;
 	}
 
 	public void setDifficulty(int a) {
@@ -94,12 +108,13 @@ public class Wall extends ColorPicker implements Abilities<Player>{
 		for (int i = 0; i < a - graphic.size(); i++) {
 			graphic.add(new Rectangle(25, 100));
 		}
-		reSelect();
+		reSelect(numOfColors);
 		for (int i = 0; i < chosenColors.size(); i++) {
 			System.out.printf("Color: " + chosenColors.get(i) + "%nchosenColors size: %d%n", chosenColors.size());
 			;
 		}
 	}
+
 	public void setX(double a) {
 		x = a;
 	}
@@ -116,37 +131,25 @@ public class Wall extends ColorPicker implements Abilities<Player>{
 	public double getThreshold() {
 		return threshold;
 	}
+	//abilties
 
-	@Override
-	public void invisibilty(Player o) {
-		// TODO Auto-generated method stub
-		
+	public boolean isActive() {
+		return active;
 	}
 
-	@Override
-	public void inverseControls() {
-		// TODO Auto-generated method stub
-		
+	public void setActive(boolean activate) {
+		active = activate;	
 	}
-
-	@Override
-	public void colorSwitch() {
-		// TODO Auto-generated method stub
-		
+	// wall moving up and down
+	public void bounce(Scene s) {
+		double min_boundary = -40;
+		double max_boundary = s.getHeight()+40;
+		for(int i = 0;i < yPos.size();i++) {
+			yPos.set(i, yPos.get(i) + vspd);
+		}
+		if(yPos.get(0) < min_boundary || yPos.get(yPos.size() -1) > max_boundary) {
+			vspd = -vspd;
+		}
 	}
-
-	@Override
-	public void change() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void invincibilty(Player o) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 
 }

@@ -17,35 +17,11 @@ abstract public class ColorPicker {
 	protected int numOfColors;
 
 	protected ColorPicker(int num) {
-		numOfColors = num;
 		// initialize random
 		rand = new Random();
 		// select colors
-		reSelect();
+		reSelect(num);
 	}
-
-	/**
-	 * add colors to chosen colors in order to know what colors to use and select
-	 * colors at random
-	 */
-	protected void reSelect() {
-		chosenColors.clear();
-		while (chosenColors.size() != numOfColors) {
-			for (int i = 0; i < numOfColors; i++) {
-				chosenColors.add(ColorList[rand.nextInt(ColorList.length)]);
-			}
-			for (int i = 0; i < chosenColors.size(); i++) {
-				Color c = chosenColors.get(i);
-				for (int k = 0; k < chosenColors.size(); k++) {
-					Color c1 = chosenColors.get(k);
-					if (c == c1 && i != k) {
-						chosenColors.remove(k);
-					}
-				}
-			}
-		}
-	}
-
 	/**
 	 * wanting to reset the amount of colros used and pick new colors
 	 * 
