@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Wall extends ColorPicker implements Abilities<Player>{

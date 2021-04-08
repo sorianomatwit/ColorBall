@@ -1,7 +1,6 @@
 
 import java.util.Random;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class Player extends ColorPicker implements Abilities<Wall>{
@@ -79,7 +78,6 @@ public class Player extends ColorPicker implements Abilities<Wall>{
 	
 	//setters
 	public void setColor(Wall w) {
-		
 		c = (int) rand.nextInt(gameDiff);
 		chosenColors = w.getchosenColors();
 		graphic.setFill(w.getchosenColors().get(c));

@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 abstract public class ColorPicker {
 
