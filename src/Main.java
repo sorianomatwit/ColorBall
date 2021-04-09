@@ -54,6 +54,7 @@ public class Main extends Application {
 		pane.getChildren().add(C);
 		// this will happen every frame
 		// this.lives=3;
+		attacker.setHeights(scene);
 		EventHandler<ActionEvent> step = new EventHandler<ActionEvent>() {
 
 			private int timeAlive = 0;
@@ -61,6 +62,7 @@ public class Main extends Application {
 			private int count = 0;
 			
 			@Override
+			
 			public void handle(ActionEvent arg0) {
 
 				// everything here happens every frame
@@ -71,7 +73,7 @@ public class Main extends Application {
 					b.setColor(attacker);
 				// wall movement
 
-				attacker.setHeights(scene);
+				
 				attacker.Update(b);
 				attacker.display();
 
@@ -111,7 +113,7 @@ public class Main extends Application {
 				if(sec >= startcount) {
 					b.setActive(false);
 					if(bounce) {
-						attacker.bounce(scene);
+						attacker.bounce();
 					}
 				} else {
 					bounce = false;
@@ -152,6 +154,7 @@ public class Main extends Application {
 				if (gameDiff < 7)
 					gameDiff++;
 				attacker.setDifficulty(gameDiff);
+				attacker.setHeights(scene);
 			}
 		});
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

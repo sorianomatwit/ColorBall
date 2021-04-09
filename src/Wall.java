@@ -8,7 +8,7 @@ public class Wall extends ColorPicker implements Activator{
 	private double width = 25;
 	private double height;
 	private double hspd;
-	private double vspd;
+	private double vspd = 4;
 	private ArrayList<Double> yPos;
 	
 	private double start;
@@ -45,7 +45,7 @@ public class Wall extends ColorPicker implements Activator{
 				r.setY(yPos.get(k));
 				r.setHeight(height);
 				if(k == 0|| k== 1) {
-					r.setHeight(height + 40);
+					r.setHeight(height);
 				}
 			} else {
 				r.setX(-100);
@@ -56,7 +56,8 @@ public class Wall extends ColorPicker implements Activator{
 
 	public void Update(Player p) {
 		if (x > -(width)) {
-			x += -hspd;
+			//x += -hspd;
+			bounce();
 		} else {
 			x = start;
 			reSelect(numOfColors);
@@ -100,7 +101,6 @@ public class Wall extends ColorPicker implements Activator{
 
 	public void setSpd(double a) {
 		hspd = a;
-		vspd = a;
 	}
 
 	public void setDifficulty(int a) {
@@ -141,13 +141,17 @@ public class Wall extends ColorPicker implements Activator{
 		active = activate;	
 	}
 	// wall moving up and down
-	public void bounce(Scene s) {
+	public void bounce() {
+		active = true;
 		double min_boundary = -40;
-		double max_boundary = s.getHeight()+40;
-		for(int i = 0;i < yPos.size();i++) {
-			yPos.set(i, yPos.get(i) + vspd);
+		double max_boundary = game.getHeight()+40;
+		for(int d = 0;d < yPos.size();d++) {
+			double temp = yPos.get(d) + vspd;
+			System.out.printf("ypos(%d): %.2f temp: %.2f%n",d,yPos.get(d),temp);
+			yPos.set(d, temp);
 		}
-		if(yPos.get(0) < min_boundary || yPos.get(yPos.size() -1) > max_boundary) {
+		System.out.println(max_boundary);;
+		if(yPos.get(0) < min_boundary || yPos.get(yPos.size() -1) + height > max_boundary) {
 			vspd = -vspd;
 		}
 	}
