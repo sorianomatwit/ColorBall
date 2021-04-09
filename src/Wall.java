@@ -47,6 +47,9 @@ public class Wall extends ColorPicker implements Activator{
 				if(k == 0|| k== 1) {
 					r.setHeight(height);
 				}
+				if(k == 0 || k == graphic.size() - 1) {
+					r.setHeight(height+ 40);
+				}
 			} else {
 				r.setX(-100);
 				r.setY(-100);
@@ -56,7 +59,7 @@ public class Wall extends ColorPicker implements Activator{
 
 	public void Update(Player p) {
 		if (x > -(width)) {
-			//x += -hspd;
+			x += -hspd;
 			bounce();
 		} else {
 			x = start;
@@ -87,7 +90,7 @@ public class Wall extends ColorPicker implements Activator{
 	public void setHeights(Scene s) {
 		height = s.getHeight() / numOfColors;
 		yPos.clear();
-		yPos.add(0.0);
+		yPos.add(-40.0);
 		for (int i = 1; i < numOfColors; i++) {
 			yPos.add(height * i);
 		}
@@ -146,7 +149,7 @@ public class Wall extends ColorPicker implements Activator{
 		double min_boundary = -40;
 		double max_boundary = game.getHeight()+40;
 		for(int d = 0;d < yPos.size();d++) {
-			double temp = yPos.get(d) + vspd;
+			double temp = yPos.get(d) + vspd*0.3;
 			System.out.printf("ypos(%d): %.2f temp: %.2f%n",d,yPos.get(d),temp);
 			yPos.set(d, temp);
 		}

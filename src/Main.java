@@ -79,8 +79,6 @@ public class Main extends Application {
 				if (attacker.getX() >= scene.getWidth())
 					b.setColor(attacker);
 				// wall movement
-
-				
 				attacker.Update(b);
 				attacker.display();
 
@@ -137,6 +135,7 @@ public class Main extends Application {
 					//DiffScale();
 					gameDiff++;
 					attacker.setDifficulty(gameDiff);
+					attacker.setHeights(scene);
 					net=false;
 				} //**/
 			}
