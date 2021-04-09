@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,9 +16,11 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	int startingLives = 25; // used to define lives
-	int gameDiff = 3;// max difficulty is going to be 7
+	int startingLives = 5; // used to define lives
+	int gameDiff = 2;// max difficulty is going to be 7
 	int sec;
+	int gameProg;
+	boolean net;
 	int startcount;
 	public boolean bounce = false;
 	boolean toggle = true;
@@ -26,6 +29,10 @@ public class Main extends Application {
 		launch(args);
 
 	}
+	
+	//public void DiffScale() {
+	//	gameDiff=gameDiff++;
+	//}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -58,9 +65,9 @@ public class Main extends Application {
 		EventHandler<ActionEvent> step = new EventHandler<ActionEvent>() {
 
 			private int timeAlive = 0;
-
+			private int gameProg = 0;
 			private int count = 0;
-			
+		
 			@Override
 			
 			public void handle(ActionEvent arg0) {
@@ -103,8 +110,10 @@ public class Main extends Application {
 					B.setText("Lol, you died\nYou were alive for " + sec + " seconds");
 					pane.getChildren().add(B);
 				}
-				if (b.isAlive())
+				if (b.isAlive()) {
 					timeAlive++;
+					if (!net) gameProg++; //Currently Unused
+				}
 				sec = timeAlive / 60;
 				String c = String.valueOf(sec);
 				C.setText("Time: " + c);
@@ -118,11 +127,27 @@ public class Main extends Application {
 				} else {
 					bounce = false;
 				}
+				
+				//DifficultyScaleSystem
+				if (gameProg >= 600) {
+					net = true;
+					gameProg = 0;
+				}
+				if (net && gameDiff < 5 && attacker.getX()==0) { //currently caps at 5, but you can raise it to 7
+					//DiffScale();
+					gameDiff++;
+					attacker.setDifficulty(gameDiff);
+					net=false;
+				} //**/
 			}
-
+		
+			
+	
+			
 		};
-
+		
 		// 1 frame
+		
 		Timeline s = new Timeline(new KeyFrame(Duration.millis(16.67), (step)));
 		s.setCycleCount(Timeline.INDEFINITE);
 		s.play();

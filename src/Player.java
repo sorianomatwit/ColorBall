@@ -54,7 +54,7 @@ public class Player extends ColorPicker implements Activator{
 		updateGraphic();
 
 		// life stuff
-		if (lives < 0) {
+		if (lives <= 0) {
 			alive = false;
 		}
 	}
