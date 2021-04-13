@@ -23,6 +23,7 @@ public class Main extends Application {
 	public static int gameDiff = 3;// max difficulty is going to be 7
 	public static int sec;
 	public static int timeAlive = 0;
+	//public Text hp;
 	public boolean net;
 	public static boolean gameEnd = false;
 	public static ArrayList<Node> children = new ArrayList<Node>();
@@ -114,7 +115,7 @@ public class Main extends Application {
 					Text endScreen = new Text();
 					endScreen.setX(100);
 					endScreen.setY(200);
-					endScreen.setText("Lol, you died\nYou were alive for " + sec + " seconds");
+					endScreen.setText("Lol, you died\nYou were alive for " + sec + " seconds \nPress 'b' to retry");
 					pane.getChildren().add(endScreen);
 				}
 				
@@ -122,7 +123,7 @@ public class Main extends Application {
 				if (ball.isAlive()) {
 					timeAlive++;
 					if (!net)
-						gameProg++; // Currently Unused
+						gameProg++; //increments when false
 				}
 				sec = timeAlive / 60;
 				String c = String.valueOf(sec);
@@ -140,16 +141,19 @@ public class Main extends Application {
 					isInvince = false;
 				}
 				// DifficultyScaleSystem
-				if (gameProg >= 600) {
-					net = true;
-					gameProg = 0;
+				if (gameProg >= 600) { //if time is this far
+					net = true;       //reset time
+					gameProg = 0;	///resets time
 				}
 				if (net && gameDiff < 7 && attacker.getX() == 0) { // currently caps at 5, but you can raise it to 7
-					// DiffScale();
-					gameDiff++;
-					attacker.setDifficulty(gameDiff);
-					attacker.setHeights(scene);
-					net = false;
+					//Parameter 1: net is true
+					//Paremeter 2: gamediff is below 7
+					//Parameter 3: Wall is on left side of screen
+					gameDiff++; //game diff increases by 1
+					attacker.setDifficulty(gameDiff); //difficulty increased by set value
+					attacker.setHeights(scene);		//^
+					net = false;					//boolean adjusted to false. allows gameProg to increment again, 
+													//prevents this from reoccuring until parameters are met again
 				} // **/
 			}
 		};
@@ -200,7 +204,7 @@ public class Main extends Application {
 			}
 			if(e.getCode() == KeyCode.B) {
 				if(gameEnd) {// game restart
-					reset(ball,attacker,pane,scene);
+					reset(ball,attacker,pane,scene, hp);
 				}
 			}
 		});
@@ -212,7 +216,7 @@ public class Main extends Application {
 			}
 		});
 	}
-	public static void reset(Player p, Wall w,Pane r, Scene s) {
+	public static void reset(Player p, Wall w,Pane r, Scene s, Text hp) {
 		r.getChildren().clear();
 		r.getChildren().addAll(children);
 		p.setLives(startingLives);
@@ -223,7 +227,7 @@ public class Main extends Application {
 		p.reset(gameDiff);
 		w.reset(gameDiff);
 		w.setHeights(s);
-		
+		hp.setText("Health: " + startingLives); //added, ensures proper visual feedback pre first hit
 	}
 
 }
