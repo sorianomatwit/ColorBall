@@ -22,7 +22,7 @@ public class Main extends Application {
 	public static int startingLives = 3; // used to define lives
 	public static int gameDiff = 3;// max difficulty is going to be 7
 	public static int sec;
-	
+	public static int timeAlive = 0;
 	public boolean net;
 	public static boolean gameEnd = false;
 	public static ArrayList<Node> children = new ArrayList<Node>();
@@ -70,7 +70,7 @@ public class Main extends Application {
 		// this will happen every frame
 		EventHandler<ActionEvent> step = new EventHandler<ActionEvent>() {
 
-			private int timeAlive = 0;
+			
 			private int gameProg = 0;
 			//use to detect amount of time player got hit
 			private int count = 0;
@@ -217,11 +217,13 @@ public class Main extends Application {
 		r.getChildren().addAll(children);
 		p.setLives(startingLives);
 		sec = 0;
+		timeAlive = 0;
 		gameEnd = false;
 		gameDiff  = 3;
 		p.reset(gameDiff);
 		w.reset(gameDiff);
 		w.setHeights(s);
+		
 	}
 
 }
