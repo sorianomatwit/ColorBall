@@ -8,7 +8,7 @@ abstract public class ColorPicker {
 	protected Random rand;
 	// list of colors to choose from
 	protected Color[] ColorList = { Color.AQUA, Color.HOTPINK, Color.PURPLE, Color.LIGHTGRAY, Color.LIME, Color.RED,
-			Color.ORANGE, Color.YELLOW };
+			Color.ORANGE, Color.OLIVE };
 
 	// colors of which will be used
 	ArrayList<Color> chosenColors = new ArrayList<Color>();

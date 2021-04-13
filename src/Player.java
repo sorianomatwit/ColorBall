@@ -4,6 +4,7 @@ import java.util.Random;
 import javafx.scene.shape.Circle;
 
 public class Player extends ColorPicker implements Activator{
+	private boolean isFlashing = false;
 	private double radius;
 	// position
 	private double x;
@@ -16,6 +17,8 @@ public class Player extends ColorPicker implements Activator{
 	int gameDiff;
 	// graphic
 	Circle graphic = new Circle();
+	double gradient = 1.0;
+	double changeby = 0.01;
 	// player lives
 	private int lives = 3;
 	boolean alive = true;
@@ -63,14 +66,38 @@ public class Player extends ColorPicker implements Activator{
 	private void updateGraphic() {
 		graphic.setCenterX(x);
 		graphic.setCenterY(y);
+		graphic.setOpacity(gradient);
+		if(!isFlashing) {
+			gradient = 1.0;
+		}
 		if(!active) {
 			graphic.setVisible(true);
 		}
-		
-
 	}
-
+	/**
+	 * 
+	 * @param spd cannot be 0 or negative
+	 */
+	public void flashing(int spd) {
+		isFlashing = true;
+		if(spd <= 0) {
+			spd = 1;
+		}
+		for (int i = 0; i <= spd; i++) {
+			if (gradient <= 0.3 || gradient >= 1.0) {
+				changeby = -changeby;
+			}
+			gradient += changeby;
+		}
+	}
+	
 	// getters
+	public boolean isFlashing() {
+		return isFlashing;
+	}
+	public void stopFlashing() {
+		isFlashing = false;
+	}
 	public double getX() {
 		return x;
 	}
@@ -103,10 +130,12 @@ public class Player extends ColorPicker implements Activator{
 	public boolean isActive() {
 		return active;
 	}
+	
 	// setters
 	public void setActive(boolean activate) {
 		active = activate;
 	}
+	
 	public void setColor(Wall w) {
 		c = (int) rand.nextInt(gameDiff);
 		chosenColors = w.getchosenColors();

@@ -3,7 +3,8 @@ import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 
-public class Wall extends ColorPicker implements Activator{
+public class Wall extends ColorPicker implements Activator {
+
 	private double x;
 	private double width = 25;
 	private double height;
@@ -12,14 +13,15 @@ public class Wall extends ColorPicker implements Activator{
 	private ArrayList<Double> yPos;
 	private Player target;
 	private double start;
-	
+
 	private int maxdifficulty = 7;
 	private double threshold = -width;
 	private ArrayList<Rectangle> graphic;
-	
+
 	private Scene game;
-	
+
 	private boolean active = false;
+
 	public Wall(int difficulty) {
 		super(difficulty);
 		graphic = new ArrayList<Rectangle>();
@@ -44,11 +46,11 @@ public class Wall extends ColorPicker implements Activator{
 				r.setX(x);
 				r.setY(yPos.get(k));
 				r.setHeight(height);
-				if(k == 0|| k== 1) {
+				if (k == 0 || k == 1) {
 					r.setHeight(height);
 				}
-				if(k == 0 || k == graphic.size() - 1) {
-					r.setHeight(height+ 40);
+				if (k == 0 || k == graphic.size() - 1) {
+					r.setHeight(height + 40);
 				}
 			} else {
 				r.setX(-100);
@@ -58,16 +60,30 @@ public class Wall extends ColorPicker implements Activator{
 	}
 
 	public void Update(Player p) {
-		if (x > -(width)) {
-			x += -hspd;
-			if(active) bounce();
+		if (hspd < 0) {
+			if(x < game.getWidth()+width) {
+				x+= -hspd;
+				if (active) {
+					bounce();
+				}
+			} else {
+				x = -width;
+				reSelect(numOfColors);
+				p.reSelect(chosenColors.size());
+			}
 		} else {
-			x = start;
-			reSelect(numOfColors);
-			p.reSelect(chosenColors.size());
-			target = p;
+			if (x > -(width)) {
+				x += -hspd;
+				if (active) {
+					bounce();
+				}
+			} else {
+				x = start;
+				reSelect(numOfColors);
+				p.reSelect(chosenColors.size());
+			}
 		}
-
+		target = p;
 	}
 	// Check collision
 
@@ -135,26 +151,28 @@ public class Wall extends ColorPicker implements Activator{
 	public double getThreshold() {
 		return threshold;
 	}
-	//abilties
+	// abilties
 
 	public boolean isActive() {
 		return active;
 	}
 
 	public void setActive(boolean activate) {
-		active = activate;	
+		active = activate;
+		
 	}
+
 	// wall moving up and down
 	public void bounce() {
 		double min_boundary = -40;
-		double max_boundary = game.getHeight()+40;
-		for(int d = 0;d < yPos.size();d++) {
-			double temp = yPos.get(d) + vspd*0.3;// number was pulled out of nowhere
-			//System.out.printf("ypos(%d): %.2f temp: %.2f%n",d,yPos.get(d),temp);
+		double max_boundary = game.getHeight() + 40;
+		for (int d = 0; d < yPos.size(); d++) {
+			double temp = yPos.get(d) + vspd * 0.3;// number was pulled out of nowhere
+			// System.out.printf("ypos(%d): %.2f temp: %.2f%n",d,yPos.get(d),temp);
 			yPos.set(d, temp);
 		}
-		//System.out.println(max_boundary);;
-		if(yPos.get(0) < min_boundary || yPos.get(yPos.size() -1) + height > max_boundary) {
+		// System.out.println(max_boundary);;
+		if (yPos.get(0) < min_boundary || yPos.get(yPos.size() - 1) + height > max_boundary) {
 			vspd = -vspd;
 		}
 	}
@@ -166,6 +184,10 @@ public class Wall extends ColorPicker implements Activator{
 		reSelect(a);
 		target.reSelect(chosenColors.size());
 		active = false;
+	}
+
+	public void reverse() {
+		hspd = -hspd;
 	}
 
 }

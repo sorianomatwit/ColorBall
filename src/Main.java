@@ -19,15 +19,15 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	public static int startingLives = 3; // used to define lives
+	public static int startingLives = 25; // used to define lives
 	public static int gameDiff = 3;// max difficulty is going to be 7
 	public static int sec;
 	public static int timeAlive = 0;
 	public boolean net;
 	public static boolean gameEnd = false;
 	public static ArrayList<Node> children = new ArrayList<Node>();
-	//abbility variables
-	public int startcount[] = new int[4];// the numebr here equalts the number of abilities
+	// abbility variables
+	public int startcount[] = new int[5];// the numebr here equalts the number of abilities
 	public boolean isInvince = false;
 
 	public static void main(String[] args) {
@@ -39,20 +39,18 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Player ball = new Player(gameDiff);
 		ball.setLives(startingLives);
-		
+
 		Wall attacker = new Wall(gameDiff);
 		Pane pane = new Pane();
-		
+
 		children.addAll(attacker.getGraphic());
 		children.add(ball.getGraphic());
-		
-		
 
 		Scene scene = new Scene(pane, 500, 500);
 		primaryStage.setTitle("Platformer");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
+
 		Text hp = new Text(); // hp
 		Text timer = new Text(); // time
 		children.add(hp);
@@ -63,16 +61,16 @@ public class Main extends Application {
 		timer.setY(50);
 		String a = String.valueOf(startingLives);
 		hp.setText("Health: " + a);
-		
+
 		attacker.setHeights(scene);
+		attacker.setSpd(scene.getWidth() * 0.01);
 		pane.getChildren().addAll(children);
-		
+
 		// this will happen every frame
 		EventHandler<ActionEvent> step = new EventHandler<ActionEvent>() {
 
-			
 			private int gameProg = 0;
-			//use to detect amount of time player got hit
+			// use to detect amount of time player got hit
 			private int count = 0;
 
 			@Override
@@ -87,8 +85,8 @@ public class Main extends Application {
 				// wall movement
 				attacker.Update(ball);
 				attacker.display();
-
-				attacker.setSpd(scene.getWidth() * 0.01);
+				
+				
 				// collsion
 				if (!isInvince) {
 					if (attacker.collide(ball)) {
@@ -99,7 +97,6 @@ public class Main extends Application {
 							ball.gotHit();
 							count++;
 						}
-
 						pane.getChildren().remove(hp);
 						String a = String.valueOf(ball.getLives());
 						hp.setText("Health: " + a);
@@ -107,18 +104,8 @@ public class Main extends Application {
 					} else
 						count = 0;
 				}
-				//game end
-				if (!ball.isAlive()) {
-					gameEnd = true;
-					pane.getChildren().clear();
-					Text endScreen = new Text();
-					endScreen.setX(100);
-					endScreen.setY(200);
-					endScreen.setText("Lol, you died\nYou were alive for " + sec + " seconds");
-					pane.getChildren().add(endScreen);
-				}
-				
-				//game difficulty stuff
+
+				// game difficulty stuff
 				if (ball.isAlive()) {
 					timeAlive++;
 					if (!net)
@@ -136,8 +123,16 @@ public class Main extends Application {
 				if (sec > startcount[1] && attacker.isActive()) {// wal bounce
 					attacker.setActive(false);
 				}
-				if(sec > startcount[2] && isInvince) {
+				if (sec > startcount[2] && isInvince) {
 					isInvince = false;
+				}
+				if(sec > startcount[3]) {
+					attacker.setSpd(scene.getWidth() * 0.01);
+				}
+				if(startcount[4] > sec) {
+					ball.flashing(5);
+				} else {
+					ball.stopFlashing();
 				}
 				// DifficultyScaleSystem
 				if (gameProg >= 600) {
@@ -150,7 +145,17 @@ public class Main extends Application {
 					attacker.setDifficulty(gameDiff);
 					attacker.setHeights(scene);
 					net = false;
-				} // **/
+				}
+				// game end
+				if (!ball.isAlive()) {
+					gameEnd = true;
+					pane.getChildren().clear();
+					Text endScreen = new Text();
+					endScreen.setX(100);
+					endScreen.setY(200);
+					endScreen.setText("Lol, you died\nYou were alive for " + sec + " seconds");
+					pane.getChildren().add(endScreen);
+				}
 			}
 		};
 
@@ -171,10 +176,9 @@ public class Main extends Application {
 				ball.flipVy();
 			}
 
-			
-
 			// testing code !NOT apart of the game!
 			if (e.getCode() == KeyCode.Z) {
+				System.out.println("GameDff");
 				if (gameDiff < 7)
 					gameDiff++;
 				attacker.setDifficulty(gameDiff);
@@ -183,25 +187,38 @@ public class Main extends Application {
 
 			// Ball Visibility (Keyboard Control)
 			if (e.getCode() == KeyCode.X) {
+				System.out.println("invisible");
 				ball.invisible();
 				startcount[0] = sec + 3;
 			}
-			
-			//bounce 
+
+			// bounce
 			if (e.getCode() == KeyCode.C) {
+				System.out.println("bounce");
 				attacker.setActive(true);
 				startcount[1] = sec + 5;
 			}
-			
-			//ivincibilty
+
+			// ivincibilty
 			if (e.getCode() == KeyCode.V) {
+				System.out.println("invincible");
 				isInvince = true;
 				startcount[2] = 10 + sec;
 			}
-			if(e.getCode() == KeyCode.B) {
-				if(gameEnd) {// game restart
-					reset(ball,attacker,pane,scene);
+			if (e.getCode() == KeyCode.B) {
+				System.out.println("game restart");
+				if (gameEnd) {// game restart
+					reset(ball, attacker, pane, scene);
 				}
+			}
+			if(e.getCode() == KeyCode.N) {
+				System.out.println("reverse");
+				attacker.reverse();
+				startcount[3] = 10 + sec;
+			}
+			if(e.getCode() == KeyCode.M) {
+				System.out.println("flash");
+				startcount[4] = 10 + sec;
 			}
 		});
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -212,18 +229,18 @@ public class Main extends Application {
 			}
 		});
 	}
-	public static void reset(Player p, Wall w,Pane r, Scene s) {
+
+	public static void reset(Player p, Wall w, Pane r, Scene s) {
 		r.getChildren().clear();
 		r.getChildren().addAll(children);
 		p.setLives(startingLives);
 		sec = 0;
 		timeAlive = 0;
 		gameEnd = false;
-		gameDiff  = 3;
+		gameDiff = 3;
 		p.reset(gameDiff);
 		w.reset(gameDiff);
 		w.setHeights(s);
-		
 	}
 
 }
