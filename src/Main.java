@@ -225,7 +225,7 @@ public class Main extends Application {
 
 			@Override
 			public void handle(WindowEvent arg0) {
-				s.stop();
+				s.stop(); 
 			}
 		});
 	}
