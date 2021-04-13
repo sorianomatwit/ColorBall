@@ -26,13 +26,12 @@ public class Player extends ColorPicker implements Activator{
 	
 	
 	// constructor
-	public Player(int difficulty, int lives) {
+	public Player(int difficulty) {
 		super(difficulty);
 		gameDiff = difficulty;
 		this.radius = 20;
 		this.x = 100;
 		this.y = 100;
-		this.lives = lives;
 		vy = 50;
 
 		graphic = new Circle(x, y, radius);
@@ -56,6 +55,8 @@ public class Player extends ColorPicker implements Activator{
 		// life stuff
 		if (lives <= 0) {
 			alive = false;
+		} else {
+			alive = true;
 		}
 	}
 
@@ -115,7 +116,11 @@ public class Player extends ColorPicker implements Activator{
 	public void setBoundary(double y) {
 		maxY = y;
 	}
-
+	
+	public void setLives(int l){
+		lives = l;
+	}
+	
 	// collision action;
 	public void gotHit() {
 		lives--;
