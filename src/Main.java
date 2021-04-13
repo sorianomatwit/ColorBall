@@ -17,13 +17,10 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 	int startingLives = 5; // used to define lives
-	int gameDiff = 2;// max difficulty is going to be 7
+	int gameDiff = 3;// max difficulty is going to be 7
 	int sec;
-	int gameProg;
 	boolean net;
-	int startcount;
-	public boolean bounce = false;
-	boolean toggle = true;
+	int startcount[] = new int[4];// the numebr here equalts the number of abilities
 
 	public static void main(String[] args) {
 		launch(args);
@@ -117,21 +114,18 @@ public class Main extends Application {
 				C.setText("Time: " + c);
 				// any ability that activate will stop here
 				// int order to active an abiulty set startcount to sec + the length u want the ability to stay active
-				if(sec >= startcount) {
+				if(sec > startcount[0] && b.isActive()) {// invisibility
 					b.setActive(false);
-					if(bounce) {
-						attacker.bounce();
-					}
-				} else {
-					bounce = false;
 				}
-				
+				if(sec > startcount[1] && attacker.isActive()) {//wal bounce
+					attacker.setActive(false);
+				}
 				//DifficultyScaleSystem
 				if (gameProg >= 600) {
 					net = true;
 					gameProg = 0;
 				}
-				if (net && gameDiff < 5 && attacker.getX()==0) { //currently caps at 5, but you can raise it to 7
+				if (net && gameDiff < 7 && attacker.getX()==0) { //currently caps at 5, but you can raise it to 7
 					//DiffScale();
 					gameDiff++;
 					attacker.setDifficulty(gameDiff);
@@ -139,10 +133,6 @@ public class Main extends Application {
 					net=false;
 				} //**/
 			}
-		
-			
-	
-			
 		};
 		
 		// 1 frame
@@ -165,12 +155,12 @@ public class Main extends Application {
 			// Ball Visibility (Keyboard Control)
 			if (e.getCode() == KeyCode.I) {
 				b.invisible();
-				startcount = sec + 5;
+				startcount[0] = sec + 5;
 			}
 			
 			if(e.getCode() == KeyCode.B) {
-				bounce = true;
-				startcount = sec + 5;
+				attacker.setActive(true);
+				startcount[1] = sec + 5;
 			}
 
 			// testing code !NOT apart of the game!

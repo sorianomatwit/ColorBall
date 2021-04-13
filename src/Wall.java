@@ -60,7 +60,7 @@ public class Wall extends ColorPicker implements Activator{
 	public void Update(Player p) {
 		if (x > -(width)) {
 			x += -hspd;
-			bounce();
+			if(active) bounce();
 		} else {
 			x = start;
 			reSelect(numOfColors);
@@ -112,10 +112,10 @@ public class Wall extends ColorPicker implements Activator{
 			graphic.add(new Rectangle(25, 100));
 		}
 		reSelect(numOfColors);
-		for (int i = 0; i < chosenColors.size(); i++) {
-			System.out.printf("Color: " + chosenColors.get(i) + "%nchosenColors size: %d%n", chosenColors.size());
-			;
-		}
+//		for (int i = 0; i < chosenColors.size(); i++) {
+//			System.out.printf("Color: " + chosenColors.get(i) + "%nchosenColors size: %d%n", chosenColors.size());
+//			;
+//		}
 	}
 
 	public void setX(double a) {
@@ -145,15 +145,14 @@ public class Wall extends ColorPicker implements Activator{
 	}
 	// wall moving up and down
 	public void bounce() {
-		active = true;
 		double min_boundary = -40;
 		double max_boundary = game.getHeight()+40;
 		for(int d = 0;d < yPos.size();d++) {
-			double temp = yPos.get(d) + vspd*0.3;
-			System.out.printf("ypos(%d): %.2f temp: %.2f%n",d,yPos.get(d),temp);
+			double temp = yPos.get(d) + vspd*0.3;// number was pulled out of nowhere
+			//System.out.printf("ypos(%d): %.2f temp: %.2f%n",d,yPos.get(d),temp);
 			yPos.set(d, temp);
 		}
-		System.out.println(max_boundary);;
+		//System.out.println(max_boundary);;
 		if(yPos.get(0) < min_boundary || yPos.get(yPos.size() -1) + height > max_boundary) {
 			vspd = -vspd;
 		}
