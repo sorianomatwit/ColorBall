@@ -10,7 +10,7 @@ public class Wall extends ColorPicker implements Activator{
 	private double hspd;
 	private double vspd = 4;
 	private ArrayList<Double> yPos;
-	
+	private Player target;
 	private double start;
 	
 	private int maxdifficulty = 7;
@@ -65,6 +65,7 @@ public class Wall extends ColorPicker implements Activator{
 			x = start;
 			reSelect(numOfColors);
 			p.reSelect(chosenColors.size());
+			target = p;
 		}
 
 	}
@@ -156,6 +157,15 @@ public class Wall extends ColorPicker implements Activator{
 		if(yPos.get(0) < min_boundary || yPos.get(yPos.size() -1) + height > max_boundary) {
 			vspd = -vspd;
 		}
+	}
+
+	@Override
+	public void reset(int a) {
+		x = start;
+		numOfColors = a;
+		reSelect(a);
+		target.reSelect(chosenColors.size());
+		active = false;
 	}
 
 }

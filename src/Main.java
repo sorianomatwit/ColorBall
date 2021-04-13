@@ -19,15 +19,16 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	int startingLives = 3; // used to define lives
-	int gameDiff = 3;// max difficulty is going to be 7
-	int sec;
-	boolean net;
-	boolean gameEnd = false;
-	ArrayList<Node> children = new ArrayList<Node>();
+	public static int startingLives = 3; // used to define lives
+	public static int gameDiff = 3;// max difficulty is going to be 7
+	public static int sec;
+	
+	public boolean net;
+	public static boolean gameEnd = false;
+	public static ArrayList<Node> children = new ArrayList<Node>();
 	//abbility variables
-	int startcount[] = new int[4];// the numebr here equalts the number of abilities
-	boolean isInvince = false;
+	public int startcount[] = new int[4];// the numebr here equalts the number of abilities
+	public boolean isInvince = false;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -168,15 +169,6 @@ public class Main extends Application {
 			}
 			if (e.getCode() == KeyCode.SPACE) {
 				ball.flipVy();
-				if(gameEnd) {// game restart
-					System.out.println("hi");
-					pane.getChildren().clear();
-					pane.getChildren().addAll(children);
-					ball.setLives(startingLives);
-					sec = 0;
-					gameEnd = false;
-					
-				}
 			}
 
 			
@@ -206,6 +198,11 @@ public class Main extends Application {
 				isInvince = true;
 				startcount[2] = 10 + sec;
 			}
+			if(e.getCode() == KeyCode.B) {
+				if(gameEnd) {// game restart
+					reset(ball,attacker,pane,scene);
+				}
+			}
 		});
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
@@ -214,7 +211,17 @@ public class Main extends Application {
 				s.stop();
 			}
 		});
-
+	}
+	public static void reset(Player p, Wall w,Pane r, Scene s) {
+		r.getChildren().clear();
+		r.getChildren().addAll(children);
+		p.setLives(startingLives);
+		sec = 0;
+		gameEnd = false;
+		gameDiff  = 3;
+		p.reset(gameDiff);
+		w.reset(gameDiff);
+		w.setHeights(s);
 	}
 
 }

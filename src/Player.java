@@ -30,7 +30,7 @@ public class Player extends ColorPicker implements Activator{
 		super(difficulty);
 		gameDiff = difficulty;
 		this.radius = 20;
-		this.x = 100;
+		this.x = 200;
 		this.y = 100;
 		vy = 50;
 
@@ -144,5 +144,12 @@ public class Player extends ColorPicker implements Activator{
 	public void invisible() {
 		graphic.setVisible(false);
 		active = true;
+	}
+
+	@Override
+	public void reset(int a) {
+		gameDiff = a;
+		y= 100;
+		
 	}
 }
