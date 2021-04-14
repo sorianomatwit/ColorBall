@@ -27,7 +27,10 @@ public class Main extends Application {
 	public static int timeAlive = 0;
 	public boolean net;
 	public static boolean gameEnd = false;
-	public static ArrayList<Node> children = new ArrayList<Node>();
+	public static ArrayList<Node> children = new ArrayList<Node>();// game nodes so the player and wall andf health
+	//so this is used to save al the main game stuff
+	// clear the pane to remove the game
+	// and then add the childdren to the pane to add teh game
 	// abbility variables
 	public int startcount[] = new int[5];// the numebr here equalts the number of abilities
 	public boolean isInvince = false;
