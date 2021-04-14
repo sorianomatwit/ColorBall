@@ -27,8 +27,10 @@ public class Main extends Application {
 	public static int timeAlive = 0;
 	public boolean net;
 	public static boolean gameEnd = false;
+	public boolean gameStart = false;
+	public static ArrayList<Node> mainmenu = new ArrayList<Node>();
 	public static ArrayList<Node> children = new ArrayList<Node>();// game nodes so the player and wall andf health
-	//so this is used to save al the main game stuff
+	// so this is used to save al the main game stuff
 	// clear the pane to remove the game
 	// and then add the childdren to the pane to add teh game
 	// abbility variables
@@ -42,6 +44,10 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		FileInputStream fonts = new FileInputStream("assets/hero.ttf");
+		Font.loadFont(fonts, 14);
+		Font hero = new Font("hero", 18);
+
 		Player ball = new Player(gameDiff);
 		ball.setLives(startingLives);
 
@@ -56,17 +62,34 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
+		// main menu stuff
+		Text Title = new Text();
+		Title.setText("ColorBall");
+		Title.setScaleX(2);
+		Title.setScaleY(2);
+		Title.setFont(hero);
+
+		Title.setX(250);
+		Title.setY(100);
+
+		Text instruc = new Text();
+		instruc.setText("Press Space to start");
+		instruc.setFont(hero);
+
+		instruc.setX(250);
+		instruc.setY(150);
+		mainmenu.add(instruc);
+		mainmenu.add(Title);
+
 		Text hp = new Text(); // hp
 		Text timer = new Text(); // time
-		children.add(hp);
-		children.add(timer);
+
+		// game screen
 		hp.setX(200);
 		hp.setY(30);
 		timer.setX(200);
 		timer.setY(50);
-		FileInputStream fonts = new FileInputStream("assets/hero.ttf");
-		Font.loadFont(fonts, 14);
-		Font hero = new Font("hero",18);
+
 		hp.setFont(hero);
 		timer.setFont(hero);
 		String a = String.valueOf(startingLives);
@@ -74,7 +97,13 @@ public class Main extends Application {
 
 		attacker.setHeights(scene);
 		attacker.setSpd(scene.getWidth() * 0.01);
-		pane.getChildren().addAll(children);
+
+		children.add(hp);
+		children.add(timer);
+
+		if (!gameStart) {
+			pane.getChildren().addAll(mainmenu);
+		}
 
 		// this will happen every frame
 		EventHandler<ActionEvent> step = new EventHandler<ActionEvent>() {
@@ -87,86 +116,87 @@ public class Main extends Application {
 
 			public void handle(ActionEvent arg0) {
 				// everything here happens every frame
-				ball.setBoundary(scene.getHeight());// determines ball state
+				if (gameStart) {
+					ball.setBoundary(scene.getHeight());// determines ball state
 
-				ball.move(scene.getHeight() * 0.00025); // move the ball
-				if (attacker.getX() >= scene.getWidth())
-					ball.setColor(attacker);
-				// wall movement
-				attacker.Update(ball);
-				attacker.display();
-				
-				
-				// collsion
-				if (!isInvince) {
-					if (attacker.collide(ball)) {
-						// you got hit
-						startcount[4] = sec + 5;
-						// lose a life
-						if (count < 1) {
-							ball.gotHit();
-							count++;
-						}
-						pane.getChildren().remove(hp);
-						String a = String.valueOf(ball.getLives());
-						hp.setText("Health: " + a);
-						pane.getChildren().add(hp);
-					} else
-						count = 0;
-				}
+					ball.move(scene.getHeight() * 0.00025); // move the ball
+					if (attacker.getX() >= scene.getWidth())
+						ball.setColor(attacker);
+					// wall movement
+					attacker.Update(ball);
+					attacker.display();
 
-				// game difficulty stuff
-				if (ball.isAlive()) {
-					timeAlive++;
-					if (!net)
-						gameProg++; // Currently Unused
-				}
-				sec = timeAlive / 60;
-				String c = String.valueOf(sec);
-				timer.setText("Time: " + c);
-				// any ability that activate will stop here
-				// int order to active an abiulty set startcount to sec + the length u want the
-				// ability to stay active
-				if (sec > startcount[0] && ball.isActive()) {// invisibility
-					ball.setActive(false);
-				}
-				if (sec > startcount[1] && attacker.isActive()) {// wal bounce
-					attacker.setActive(false);
-				}
-				if (sec > startcount[2] && isInvince) {
-					isInvince = false;
-				}
-				if(sec > startcount[3]) {
-					attacker.setSpd(scene.getWidth() * 0.01);
-				}
-				if(startcount[4] > sec) {
-					ball.flashing(5);
-				} else {
-					ball.stopFlashing();
-				}
-				// DifficultyScaleSystem
-				if (gameProg >= 600) {
-					net = true;
-					gameProg = 0;
-				}
-				if (net && gameDiff < 7 && attacker.getX() == 0) { // currently caps at 5, but you can raise it to 7
-					// DiffScale();
-					gameDiff++;
-					attacker.setDifficulty(gameDiff);
-					attacker.setHeights(scene);
-					net = false;
-				}
-				// game end
-				if (!ball.isAlive()) {
-					gameEnd = true;
-					pane.getChildren().clear();
-					Text endScreen = new Text();
-					endScreen.setFont(hero);
-					endScreen.setX(100);
-					endScreen.setY(200);
-					endScreen.setText("Lol, you died\nYou were alive for " + sec + " seconds");
-					
-					pane.getChildren().add(endScreen);
+					// collsion
+					if (!isInvince) {
+						if (attacker.collide(ball)) {
+							// you got hit
+							startcount[4] = sec + 5;
+							// lose a life
+							if (count < 1) {
+								ball.gotHit();
+								count++;
+							}
+							pane.getChildren().remove(hp);
+							String a = String.valueOf(ball.getLives());
+							hp.setText("Health: " + a);
+							pane.getChildren().add(hp);
+						} else
+							count = 0;
+					}
+
+					// game difficulty stuff
+					if (ball.isAlive()) {
+						timeAlive++;
+						if (!net)
+							gameProg++; // Currently Unused
+					}
+					sec = timeAlive / 60;
+					String c = String.valueOf(sec);
+					timer.setText("Time: " + c);
+					// any ability that activate will stop here
+					// int order to active an abiulty set startcount to sec + the length u want the
+					// ability to stay active
+					if (sec > startcount[0] && ball.isActive()) {// invisibility
+						ball.setActive(false);
+					}
+					if (sec > startcount[1] && attacker.isActive()) {// wal bounce
+						attacker.setActive(false);
+					}
+					if (sec > startcount[2] && isInvince) {
+						isInvince = false;
+					}
+					if (sec > startcount[3]) {
+						attacker.setSpd(scene.getWidth() * 0.01);
+					}
+					if (startcount[4] > sec) {
+						ball.flashing(5);
+					} else {
+						ball.stopFlashing();
+					}
+					// DifficultyScaleSystem
+					if (gameProg >= 600) {
+						net = true;
+						gameProg = 0;
+					}
+					if (net && gameDiff < 7 && attacker.getX() == 0) { // currently caps at 5, but you can raise it to 7
+						// DiffScale();
+						gameDiff++;
+						attacker.setDifficulty(gameDiff);
+						attacker.setHeights(scene);
+						net = false;
+					}
+					// game end
+					if (!ball.isAlive()) {
+						gameEnd = true;
+						pane.getChildren().clear();
+						Text endScreen = new Text();
+						endScreen.setFont(hero);
+						endScreen.setX(100);
+						endScreen.setY(200);
+						endScreen.setText("Lol, you died\nYou were alive for " + sec + " seconds");
+
+						pane.getChildren().add(endScreen);
+					}
 				}
 			}
 		};
@@ -186,6 +216,11 @@ public class Main extends Application {
 			}
 			if (e.getCode() == KeyCode.SPACE) {
 				ball.flipVy();
+				if (!gameStart) {
+					gameStart = true;
+					pane.getChildren().clear();
+					pane.getChildren().addAll(children);
+				}
 			}
 
 			// testing code !NOT apart of the game!
@@ -223,12 +258,12 @@ public class Main extends Application {
 					reset(ball, attacker, pane, scene);
 				}
 			}
-			if(e.getCode() == KeyCode.N) {
+			if (e.getCode() == KeyCode.N) {
 				System.out.println("reverse");
 				attacker.reverse();
 				startcount[3] = 10 + sec;
 			}
-			if(e.getCode() == KeyCode.M) {
+			if (e.getCode() == KeyCode.M) {
 				System.out.println("flash");
 				startcount[4] = 10 + sec;
 			}
@@ -237,7 +272,7 @@ public class Main extends Application {
 
 			@Override
 			public void handle(WindowEvent arg0) {
-				s.stop(); 
+				s.stop();
 			}
 		});
 	}
