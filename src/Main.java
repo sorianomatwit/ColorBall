@@ -98,7 +98,7 @@ public class Main extends Application {
 				if (!isInvince) {
 					if (attacker.collide(ball)) {
 						// you got hit
-						ball.graphic.setFill(Color.BLACK);
+						startcount[4] = sec + 5;
 						// lose a life
 						if (count < 1) {
 							ball.gotHit();
