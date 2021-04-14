@@ -184,6 +184,7 @@ public class Wall extends ColorPicker implements Activator {
 		reSelect(a);
 		target.reSelect(chosenColors.size());
 		active = false;
+		hspd = Math.abs(hspd);
 	}
 
 	public void reverse() {

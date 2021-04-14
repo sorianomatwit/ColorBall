@@ -1,4 +1,5 @@
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 import javafx.animation.KeyFrame;
@@ -13,6 +14,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -55,10 +57,15 @@ public class Main extends Application {
 		Text timer = new Text(); // time
 		children.add(hp);
 		children.add(timer);
-		hp.setX(410);
+		hp.setX(200);
 		hp.setY(30);
-		timer.setX(410);
+		timer.setX(200);
 		timer.setY(50);
+		FileInputStream fonts = new FileInputStream("assets/hero.ttf");
+		Font.loadFont(fonts, 14);
+		Font hero = new Font("hero",18);
+		hp.setFont(hero);
+		timer.setFont(hero);
 		String a = String.valueOf(startingLives);
 		hp.setText("Health: " + a);
 
@@ -151,9 +158,11 @@ public class Main extends Application {
 					gameEnd = true;
 					pane.getChildren().clear();
 					Text endScreen = new Text();
+					endScreen.setFont(hero);
 					endScreen.setX(100);
 					endScreen.setY(200);
 					endScreen.setText("Lol, you died\nYou were alive for " + sec + " seconds");
+					
 					pane.getChildren().add(endScreen);
 				}
 			}
