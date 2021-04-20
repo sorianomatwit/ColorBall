@@ -29,7 +29,7 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	public static int startingLives = 10; // used to define lives
+	public static int startingLives = 1; // used to define lives
 	public static int gameDiff = 3;// max difficulty is going to be 7
 	public static int sec;
 	public static int timeAlive = 0;
@@ -382,7 +382,7 @@ public class Main extends Application {
 									l++;
 								}
 							}
-							return Integer.valueOf(a.compareTo(b));
+							return Integer.valueOf(b.compareTo(a));
 						}
 
 					});
