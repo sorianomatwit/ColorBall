@@ -67,6 +67,8 @@ public class Main extends Application {
 		Font hero = new Font("hero", 18);
 		Media boing = new Media(new File("assets/Boing.mp3").toURI().toString());
 		MediaPlayer jumpEF = new MediaPlayer(boing);
+		Media song = new Media(new File("assets/GameMusic.mp3").toURI().toString());
+		MediaPlayer gameMusic = new MediaPlayer(song);
 
 		TextField PlayerName = new TextField();
 		Player ball = new Player(gameDiff);
@@ -163,6 +165,7 @@ public class Main extends Application {
 
 				}
 				if (gameStart) {
+					gameMusic.play();
 					ball.setBoundary(scene.getHeight());// determines ball state
 					attacker.Update(ball);
 					attacker.display();
@@ -252,6 +255,7 @@ public class Main extends Application {
 
 					// game end
 					if (!ball.isAlive()) {
+						gameMusic.stop();
 						gameEnd = true;
 						gameStart = false;
 						timer.setText("Time: " + 0);
