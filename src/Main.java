@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +20,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -29,7 +32,7 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	public static int startingLives = 3; // used to define lives
+	public static int startingLives = 1; // used to define lives
 	public static int gameDiff = 3;// max difficulty is going to be 7
 	public static int sec;
 	public static int timeAlive = 0;
@@ -58,9 +61,12 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		// loading assets
 		FileInputStream fonts = new FileInputStream("assets/hero.ttf");
 		Font.loadFont(fonts, 14);
 		Font hero = new Font("hero", 18);
+		Media boing = new Media(new File("assets/Boing.mp3").toURI().toString());
+		MediaPlayer jumpEF = new MediaPlayer(boing);
 
 		TextField PlayerName = new TextField();
 		Player ball = new Player(gameDiff);
@@ -145,6 +151,7 @@ public class Main extends Application {
 
 			public void handle(ActionEvent arg0) {
 				// everything here happens every frame
+
 				if (getReady) {
 					attacker.display();
 					ball.setY(scene);
@@ -248,7 +255,7 @@ public class Main extends Application {
 						gameEnd = true;
 						gameStart = false;
 						timer.setText("Time: " + 0);
-						hp.setText("Health: "+startingLives);
+						hp.setText("Health: " + startingLives);
 						pane.getChildren().clear();
 						Text endScreen = new Text();
 						endScreen.setFont(hero);
@@ -353,12 +360,12 @@ public class Main extends Application {
 				Text listofscores = new Text();
 				listofscores.setFont(hero);
 				listofscores.setTextAlignment(TextAlignment.RIGHT);
-				
+
 				listofscores.setTranslateY(100);
 				if (names.size() == 0) {
 					String ms = "There are no highscores";
 					listofscores.setText(ms);
-					listofscores.setTranslateX(scene.getWidth()/2 - 100);
+					listofscores.setTranslateX(scene.getWidth() / 2 - 100);
 				} else {
 					String s = "";
 					Collections.sort(names, new Comparator<String>() {
@@ -376,7 +383,7 @@ public class Main extends Application {
 									k++;
 								}
 							}
-							
+
 							for (int i = o2.length() - 1; i > 0; i--) {
 								int charint = Character.getNumericValue(o2.charAt(i));
 								if (charint >= 0 && charint <= 9) {
@@ -384,7 +391,7 @@ public class Main extends Application {
 									l++;
 								}
 							}
-							System.out.printf("%d compareto %d %n", b,a);
+							System.out.printf("%d compareto %d %n", b, a);
 							return Integer.valueOf(b.compareTo(a));
 						}
 					});
@@ -392,16 +399,16 @@ public class Main extends Application {
 						if (i < 10) {
 							s += String.format("%s\n", names.get(i));
 						}
-					listofscores.setText(s);
-					listofscores.setTranslateX(scene.getWidth()/2 - 50);
+						listofscores.setText(s);
+						listofscores.setTranslateX(scene.getWidth() / 2 - 50);
+					}
 				}
-			}
-				//options code
+				// options code
 				options[0].setScaleY(1);
 				options[0].setScaleX(1);
 				options[2].setScaleY(1);
 				options[2].setScaleX(1);
-				
+
 				options[0].setY(450);
 				options[0].setX(0);
 				options[2].setY(450);
@@ -423,14 +430,20 @@ public class Main extends Application {
 		// end game menu
 		PlayerName.setOnKeyPressed(e -> {
 
+			Text t = new Text();
+			t.setFont(hero);
+			t.setX(260 - 120);
+			t.setY(50);
+			t.setText("Your score has been saved!");
 			if (e.getCode() == KeyCode.ENTER) {
 				if (!nameEntered) {
-
 					String adder = String.format("%s: %d", PlayerName.getText(), sec);
 					names.add(adder);
 					nameEntered = true;
 					System.out.printf("I added %s%n", adder);
+					pane.getChildren().add(t);
 				}
+
 				pane.requestFocus();
 			}
 
@@ -442,7 +455,7 @@ public class Main extends Application {
 			public void handle(MouseEvent event) {
 				pane.requestFocus();
 			}
-			
+
 		});
 		pane.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W) {
@@ -451,7 +464,14 @@ public class Main extends Application {
 				ball.VyDown();
 			}
 			if (e.getCode() == KeyCode.SPACE) {
-				ball.flipVy();
+				if (gameStart) {
+					ball.flipVy();
+					if (jumpEF.getCurrentTime().toSeconds() == jumpEF.getStopTime().toSeconds()) {
+						jumpEF.stop();
+					}
+
+					jumpEF.play();
+				}
 				if (!getReady) {
 					gameStart = true;
 				}
