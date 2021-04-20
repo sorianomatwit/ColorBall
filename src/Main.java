@@ -29,7 +29,7 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	public static int startingLives = 1; // used to define lives
+	public static int startingLives = 3; // used to define lives
 	public static int gameDiff = 3;// max difficulty is going to be 7
 	public static int sec;
 	public static int timeAlive = 0;
@@ -366,25 +366,27 @@ public class Main extends Application {
 						@Override
 						public int compare(String o1, String o2) {
 							int k = 0, l = 0;
-							Integer a = 0;
-							Integer b = 0;
-							for (int i = o1.length() - 1; i >= 0; i--) {
+							Integer a = new Integer(0);
+							Integer b = new Integer(0);
+
+							for (int i = o1.length() - 1; i > 0; i--) {
 								int charint = Character.getNumericValue(o1.charAt(i));
-								if (charint >= 0 || charint <= 9) {
-									a = (int) Math.pow(charint, k);
+								if (charint >= 0 && charint <= 9) {
+									a += (int) (charint * Math.pow(10, k));
 									k++;
 								}
 							}
-							for (int i = o2.length() - 1; i >= 0; i--) {
+							
+							for (int i = o2.length() - 1; i > 0; i--) {
 								int charint = Character.getNumericValue(o2.charAt(i));
-								if (charint >= 0 || charint <= 9) {
-									b = (int) Math.pow(charint, k);
+								if (charint >= 0 && charint <= 9) {
+									b += (int) (charint * Math.pow(10, l));
 									l++;
 								}
 							}
+							System.out.printf("%d compareto %d %n", b,a);
 							return Integer.valueOf(b.compareTo(a));
 						}
-
 					});
 					for (int i = 0; i < names.size(); i++) {
 						if (i < 10) {
