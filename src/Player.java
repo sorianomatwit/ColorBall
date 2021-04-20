@@ -1,6 +1,8 @@
 
 import java.util.Random;
 
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class Player extends ColorPicker implements Activator{
@@ -64,6 +66,7 @@ public class Player extends ColorPicker implements Activator{
 	}
 
 	private void updateGraphic() {
+		graphic.setStroke(Color.BLACK);
 		graphic.setCenterX(x);
 		graphic.setCenterY(y);
 		graphic.setOpacity(gradient);
@@ -93,6 +96,7 @@ public class Player extends ColorPicker implements Activator{
 	
 	// getters
 	public boolean isFlashing() {
+		
 		return isFlashing;
 	}
 	public void stopFlashing() {
@@ -138,8 +142,8 @@ public class Player extends ColorPicker implements Activator{
 	
 	public void setColor(Wall w) {
 		c = (int) rand.nextInt(gameDiff);
-		chosenColors = w.getchosenColors();
-		graphic.setFill(w.getchosenColors().get(c));
+		copyList(w.getchosenColors());
+		graphic.setFill(chosenColors.get(c));
 	}
 
 	public void setBoundary(double y) {
@@ -179,6 +183,12 @@ public class Player extends ColorPicker implements Activator{
 	public void reset(int a) {
 		gameDiff = a;
 		y= 100;
+		
+	}
+
+	public void setY(Scene s) {
+		y = s.getHeight()/2;
+		graphic.setCenterY(y);
 		
 	}
 }

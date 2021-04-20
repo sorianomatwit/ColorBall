@@ -7,8 +7,8 @@ abstract public class ColorPicker {
 
 	protected Random rand;
 	// list of colors to choose from
-	protected Color[] ColorList = { Color.AQUA, Color.HOTPINK, Color.PURPLE, Color.LIGHTGRAY, Color.LIME, Color.RED,
-			Color.ORANGE, Color.OLIVE };
+	protected Color[] ColorList = { Color.BLUE, Color.HOTPINK, Color.PURPLE, Color.GRAY, Color.DARKGREEN, Color.DARKRED,
+			Color.DARKORANGE, Color.OLIVE };
 
 	// colors of which will be used
 	ArrayList<Color> chosenColors = new ArrayList<Color>();
@@ -33,6 +33,10 @@ abstract public class ColorPicker {
 		for (int i = 0; i < numOfColors; i++) {
 			chosenColors.add(ColorList[rand.nextInt(ColorList.length)]);
 		}
+	}
+	protected void copyList(ArrayList<Color> c) {
+		chosenColors.clear();
+		chosenColors.addAll(c);
 	}
 
 	public ArrayList<Color> getchosenColors() {

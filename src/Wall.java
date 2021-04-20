@@ -14,8 +14,8 @@ public class Wall extends ColorPicker implements Activator {
 	private Player target;
 	private double start;
 
-	private int maxdifficulty = 7;
-	private double threshold = -width;
+	private int maxdifficulty = 6;
+	private double threshold = -getWidth();
 	private ArrayList<Rectangle> graphic;
 
 	private Scene game;
@@ -31,6 +31,7 @@ public class Wall extends ColorPicker implements Activator {
 	}
 
 	private void setup() {
+		
 		graphic.clear();
 		for (int i = 0; i < maxdifficulty; i++) {
 			graphic.add(new Rectangle(25, 100));
@@ -38,6 +39,7 @@ public class Wall extends ColorPicker implements Activator {
 	}
 
 	public void display() {
+		
 		for (int k = 0; k < graphic.size(); k++) {
 			Rectangle r = graphic.get(k);
 			if (k < numOfColors) {
@@ -61,18 +63,19 @@ public class Wall extends ColorPicker implements Activator {
 
 	public void Update(Player p) {
 		if (hspd < 0) {
-			if(x < game.getWidth()+width) {
+			if(x < game.getWidth()+getWidth()) {
 				x+= -hspd;
 				if (active) {
 					bounce();
 				}
 			} else {
-				x = -width;
+				x = -getWidth();
 				reSelect(numOfColors);
-				p.reSelect(chosenColors.size());
+				p.copyList(chosenColors);
+				p.reSelect(numOfColors);
 			}
-		} else {
-			if (x > -(width)) {
+		} else {//reverse
+			if (x > -(getWidth())) {
 				x += -hspd;
 				if (active) {
 					bounce();
@@ -80,7 +83,8 @@ public class Wall extends ColorPicker implements Activator {
 			} else {
 				x = start;
 				reSelect(numOfColors);
-				p.reSelect(chosenColors.size());
+				p.copyList(chosenColors);
+				p.reSelect(numOfColors);
 			}
 		}
 		target = p;
@@ -189,6 +193,15 @@ public class Wall extends ColorPicker implements Activator {
 
 	public void reverse() {
 		hspd = -hspd;
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public double getSpd() {
+		// TODO Auto-generated method stub
+		return hspd;
 	}
 
 }
