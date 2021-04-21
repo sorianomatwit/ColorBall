@@ -179,7 +179,6 @@ public class Main extends Application {
 					if (attacker.getX() == -attacker.getWidth()) {
 						ball.setColor(attacker);
 					}
-					
 
 					// game difficulty stuff
 					if (ball.isAlive()) {
@@ -191,7 +190,7 @@ public class Main extends Application {
 					sec = Math.floor(timeAlive / 60);
 					String c = String.format("%.0f", sec);
 					timer.setText("Time: " + c);
-					
+
 					// collsion
 					if (!isInvince) {
 						if (attacker.collide(ball)) {
@@ -203,7 +202,7 @@ public class Main extends Application {
 									hitEF.stop();
 								}
 								hitEF.play();
-								startcount[4] = sec +2;
+								startcount[4] = sec + 2;
 								ball.gotHit();
 								count++;
 							}
@@ -217,7 +216,7 @@ public class Main extends Application {
 					} else {
 						ball.getGraphic().setFill(Color.WHITE);
 					}
-					
+
 					// ability will spawn at random
 					Random rand = new Random();
 					if (startcount[5] < sec) {
@@ -226,7 +225,7 @@ public class Main extends Application {
 							ability = true;
 						}
 					}
-					
+
 					// any ability that activate will stop here
 					// int order to active an abiulty set startcount to sec + the length u want the
 					// ability to stay active
@@ -246,7 +245,7 @@ public class Main extends Application {
 						attacker.setSpd(scene.getWidth() * 0.01);
 						ability = false;
 					}
-					
+
 					// DifficultyScaleSystem
 					if (gameProg >= 600) {
 						net = true;
@@ -278,7 +277,7 @@ public class Main extends Application {
 						endScreen.setY(100);
 
 						endScreen.setTextAlignment(TextAlignment.CENTER);
-						// high score 
+						// high score
 						PlayerName.setFont(hero);
 						PlayerName.setMaxSize(100, 30);
 						PlayerName.setMinSize(100, 30);
@@ -291,7 +290,7 @@ public class Main extends Application {
 						options[2].setX(260 - 65);
 						for (int i = 0; i < options.length; i++) {
 							options[i].setFont(hero);
-							options[i].setY(180 + 20 * (i+1));
+							options[i].setY(180 + 20 * (i + 1));
 							options[i].setScaleX(1);
 							options[i].setScaleY(1);
 							options[i].setTextAlignment(TextAlignment.CENTER);
@@ -337,11 +336,25 @@ public class Main extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 				// gameStart = true;
+				
 				pane.getChildren().clear();
 				pane.getChildren().addAll(children);
 				startcount[5] = 3;
 				if (getReady) {
 					getReady = false;
+				}
+				if (gameEnd) {
+					reset(ball, attacker, pane, scene);
+					pane.getChildren().clear();
+					for (int i = 0; i < options.length; i++) {
+						options[i].setX(scene.getWidth() / 2 - 61);
+						options[i].setFont(hero);
+						options[i].setY(120 + 40 * (i + 1));
+						options[i].setScaleX(2);
+						options[i].setScaleY(2);
+						options[i].setTextAlignment(TextAlignment.CENTER);
+					}
+					pane.getChildren().addAll(mainmenu);
 				}
 			}
 		});
@@ -592,7 +605,7 @@ public class Main extends Application {
 		} else {
 			System.out.println("invincible");
 			isInvince = true;
-			startcount[2] = 5 + sec;
+			startcount[2] = 6 + sec;
 			p.getGraphic().setFill(Color.WHITE);
 		}
 	}
