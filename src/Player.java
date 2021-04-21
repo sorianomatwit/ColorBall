@@ -70,9 +70,6 @@ public class Player extends ColorPicker implements Activator{
 		graphic.setCenterX(x);
 		graphic.setCenterY(y);
 		graphic.setOpacity(gradient);
-		if(!isFlashing) {
-			gradient = 1.0;
-		}
 		if(!active) {
 			graphic.setVisible(true);
 		}
@@ -91,7 +88,9 @@ public class Player extends ColorPicker implements Activator{
 				changeby = -changeby;
 			}
 			gradient += changeby;
+			
 		}
+		//gradient =1;
 	}
 	
 	// getters
@@ -144,6 +143,7 @@ public class Player extends ColorPicker implements Activator{
 		c = (int) rand.nextInt(gameDiff);
 		copyList(w.getchosenColors());
 		graphic.setFill(chosenColors.get(c));
+		gradient = 1;
 	}
 
 	public void setBoundary(double y) {
