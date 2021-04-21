@@ -278,7 +278,7 @@ public class Main extends Application {
 						endScreen.setY(100);
 
 						endScreen.setTextAlignment(TextAlignment.CENTER);
-						// high score shit
+						// high score 
 						PlayerName.setFont(hero);
 						PlayerName.setMaxSize(100, 30);
 						PlayerName.setMinSize(100, 30);
