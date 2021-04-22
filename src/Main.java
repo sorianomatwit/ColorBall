@@ -336,26 +336,18 @@ public class Main extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 				// gameStart = true;
-				
+
+				if (gameEnd) {
+					reset(ball, attacker, pane, scene);
+				}
 				pane.getChildren().clear();
 				pane.getChildren().addAll(children);
 				startcount[5] = 3;
 				if (getReady) {
+
 					getReady = false;
 				}
-				if (gameEnd) {
-					reset(ball, attacker, pane, scene);
-					pane.getChildren().clear();
-					for (int i = 0; i < options.length; i++) {
-						options[i].setX(scene.getWidth() / 2 - 61);
-						options[i].setFont(hero);
-						options[i].setY(120 + 40 * (i + 1));
-						options[i].setScaleX(2);
-						options[i].setScaleY(2);
-						options[i].setTextAlignment(TextAlignment.CENTER);
-					}
-					pane.getChildren().addAll(mainmenu);
-				}
+
 			}
 		});
 		// highscore list MUST DO!!!!!!!!!!!!!!
@@ -579,9 +571,10 @@ public class Main extends Application {
 		gameStart = false;
 		getReady = true;
 		nameEntered = false;
-		p.reset(gameDiff);
-		w.reset(gameDiff);
-		w.setHeights(s);
+		
+		p.reset(gameDiff,s);
+		w.reset(gameDiff,s);
+		p.setColor(w);
 		temp = 0;
 
 	}

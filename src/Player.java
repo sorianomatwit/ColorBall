@@ -180,10 +180,11 @@ public class Player extends ColorPicker implements Activator{
 	}
 
 	@Override
-	public void reset(int a) {
+	public void reset(int a, Scene s) {
 		gameDiff = a;
-		y= 100;
-		
+		setY(s);
+		move(0);
+		//reSelect(a);
 	}
 
 	public void setY(Scene s) {

@@ -182,13 +182,15 @@ public class Wall extends ColorPicker implements Activator {
 	}
 
 	@Override
-	public void reset(int a) {
-		x = start;
+	public void reset(int a, Scene s) {
+		x = start - width;
 		numOfColors = a;
 		reSelect(a);
-		target.reSelect(chosenColors.size());
+		setHeights(s);
+		//target.reSelect(chosenColors.size());
 		active = false;
 		hspd = Math.abs(hspd);
+		display();
 	}
 
 	public void reverse() {
