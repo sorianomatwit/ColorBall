@@ -231,7 +231,7 @@ public class Main extends Application {
 					// ability will spawn at random
 					Random rand = new Random();
 					if (startcount[5] < sec) {
-						if (rand.nextInt(240) == 1 && !ability) {
+						if (rand.nextInt(240) == 1 && rand.nextInt(10) > 5 && !ability) {
 							spawnAbility(ball, attacker);
 							ability = true;
 						}
@@ -548,11 +548,11 @@ public class Main extends Application {
 //					reset(ball, attacker, pane, scene);
 //				}
 //			}
-			if (e.getCode() == KeyCode.N) {
-				System.out.println("reverse");
-				attacker.reverse();
-				startcount[3] = 10 + sec;
-			}
+//			if (e.getCode() == KeyCode.N) {
+//				System.out.println("reverse");
+//				attacker.reverse();
+//				startcount[3] = 10 + sec;
+//			}
 //			if (e.getCode() == KeyCode.M) {
 //				System.out.println("flash");
 //				startcount[4] = 10 + sec;
