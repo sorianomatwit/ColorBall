@@ -42,7 +42,7 @@ public class Main extends Application {
 	public static boolean getReady = true;
 	public static boolean gameStart = false;
 	public static boolean nameEntered = false;
-	public boolean ability = false;
+	public static boolean ability = false;
 	public static ArrayList<Node> mainmenu = new ArrayList<Node>();
 	public static ArrayList<Node> highscore = new ArrayList<Node>();
 	public static ArrayList<Node> children = new ArrayList<Node>();// game nodes so the player and wall andf health
@@ -67,6 +67,8 @@ public class Main extends Application {
 		Font hero = new Font("hero", 18);
 		Media song = new Media(new File("assets/GameMusic.mp3").toURI().toString());
 		MediaPlayer gameMusic = new MediaPlayer(song);
+//		gameMusic.setAutoPlay(true);
+//		gameMusic.setCycleCount(MediaPlayer.INDEFINITE);
 		Media hit = new Media(new File("assets/hit.mp3").toURI().toString());
 		MediaPlayer hitEF = new MediaPlayer(hit);
 		gameMusic.setVolume(.09);
@@ -142,7 +144,16 @@ public class Main extends Application {
 		if (!gameStart) {
 			pane.getChildren().addAll(mainmenu);
 		}
+		gameMusic.setStartTime(Duration.seconds(1));
+		gameMusic.setStopTime(Duration.seconds(80));
+		gameMusic.setOnEndOfMedia(new Runnable() {
 
+			@Override
+			public void run() {
+				gameMusic.stop();
+			}
+			
+		});
 		// this will happen every frame
 		EventHandler<ActionEvent> step = new EventHandler<ActionEvent>() {
 
@@ -225,7 +236,7 @@ public class Main extends Application {
 							ability = true;
 						}
 					}
-
+					
 					// any ability that activate will stop here
 					// int order to active an abiulty set startcount to sec + the length u want the
 					// ability to stay active
@@ -251,7 +262,7 @@ public class Main extends Application {
 						net = true;
 						gameProg = 0;
 					}
-					if (net && gameDiff < 6 && attacker.getX() == 0) { // currently caps at 5, but you can raise it to 7
+					if (net && gameDiff < 6 && attacker.getX() <= 0) { // currently caps at 5, but you can raise it to 7
 						// DiffScale();
 						gameDiff++;
 						attacker.setDifficulty(gameDiff);
@@ -571,11 +582,14 @@ public class Main extends Application {
 		gameStart = false;
 		getReady = true;
 		nameEntered = false;
-		
+		ability = false;
 		p.reset(gameDiff,s);
 		w.reset(gameDiff,s);
 		p.setColor(w);
 		temp = 0;
+		for(int i = 0; i < startcount.length;i++) {
+			startcount[i] = 0;
+		}
 
 	}
 
@@ -599,7 +613,6 @@ public class Main extends Application {
 			System.out.println("invincible");
 			isInvince = true;
 			startcount[2] = 6 + sec;
-			p.getGraphic().setFill(Color.WHITE);
 		}
 	}
 }
