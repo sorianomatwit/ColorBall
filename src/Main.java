@@ -548,11 +548,11 @@ public class Main extends Application {
 //					reset(ball, attacker, pane, scene);
 //				}
 //			}
-//			if (e.getCode() == KeyCode.N) {
-//				System.out.println("reverse");
-//				attacker.reverse();
-//				startcount[3] = 10 + sec;
-//			}
+			if (e.getCode() == KeyCode.N) {
+				System.out.println("reverse");
+				attacker.reverse();
+				startcount[3] = 10 + sec;
+			}
 //			if (e.getCode() == KeyCode.M) {
 //				System.out.println("flash");
 //				startcount[4] = 10 + sec;
@@ -608,7 +608,7 @@ public class Main extends Application {
 		} else if (prob < 877) {
 			System.out.println("reverse");
 			w.reverse();
-			startcount[3] = 5 + sec;
+			startcount[3] = 6 + sec;
 		} else {
 			System.out.println("invincible");
 			isInvince = true;
