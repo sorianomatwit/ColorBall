@@ -115,7 +115,17 @@ public class Main extends Application {
 		title.setX(scene.getWidth() / 2 - 40.5);
 		title.setY(100);
 		title.setTextAlignment(TextAlignment.CENTER);
-
+		
+		//instruction
+		Text instruct = new Text();
+		instruct.setFont(hero);
+		instruct.setX(scene.getWidth() / 2 - 150);
+		instruct.setY(300);
+		instruct.setScaleX(1.05);
+		instruct.setScaleY(1.05);
+		instruct.setTextAlignment(TextAlignment.CENTER);
+		instruct.setText("Space: change direction of the Ball\nW or Up: move the Ball up\nS or Down: move Ball down");
+		mainmenu.add(instruct);
 		mainmenu.add(title);
 		mainmenu.add(options[0]);
 		mainmenu.add(options[1]);
@@ -230,8 +240,9 @@ public class Main extends Application {
 
 					// ability will spawn at random
 					Random rand = new Random();
+					//ability =  true; // for testing abilities uncomment this line
 					if (startcount[5] < sec) {
-						if (rand.nextInt(240) == 1 && rand.nextInt(10) > 5 && !ability) {
+						if (rand.nextInt(240) == 1 && !ability) {
 							spawnAbility(ball, attacker);
 							ability = true;
 						}

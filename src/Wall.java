@@ -72,7 +72,6 @@ public class Wall extends ColorPicker implements Activator {
 				x = -getWidth();
 				reSelect(numOfColors);
 				p.copyList(chosenColors);
-				p.reSelect(numOfColors);
 			}
 		} else {//reverse
 			if (x > -(getWidth())) {
