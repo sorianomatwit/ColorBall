@@ -15,10 +15,13 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -32,24 +35,29 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	public static int startingLives = 25;//10; // used to define lives
+	public static int startingLives = 100;//10; // used to define lives
 	public static int gameDiff = 3;// max difficulty is going to be 7
 	public static double sec;
 	public static int timeAlive = 0;
 	public static int begin = 0;
+	
 	public boolean net;
+	
 	public static boolean gameEnd = false;
 	public static boolean getReady = true;
 	public static boolean gameStart = false;
 	public static boolean nameEntered = false;
 	public static boolean ability = false;
+	
 	public static ArrayList<Node> mainmenu = new ArrayList<Node>();
-	public static ArrayList<Node> children = new ArrayList<Node>();// game nodes so the player and wall andf health
+	public static ArrayList<Node> children = new ArrayList<Node>(); // game nodes so the player and wall andf health  
 	public static ArrayList<String> names = new ArrayList<String>();
+	
 	// so this is used to save al the main game stuff
 	// clear the pane to remove the game
 	// and then add the childdren to the pane to add teh game
 	// abbility variables
+	
 	public static double startcount[] = new double[6];// the numebr here equalts the number of timers
 	public static boolean isInvince = false;
 
@@ -62,10 +70,12 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// loading assets
 		FileInputStream fonts = new FileInputStream("assets/04B_30__.TTF");
+		FileInputStream imagefile = new FileInputStream("assets/icon.png");
 		Font.loadFont(fonts, 14);
 		Font hero = new Font("04B", 15);
 		Media song = new Media(new File("assets/GameMusic.mp3").toURI().toString());
 		MediaPlayer gameMusic = new MediaPlayer(song);
+		Image icon = new Image(imagefile);
 //		gameMusic.setAutoPlay(true);
 //		gameMusic.setCycleCount(MediaPlayer.INDEFINITE);
 		Media hit = new Media(new File("assets/hit.mp3").toURI().toString());
@@ -83,6 +93,7 @@ public class Main extends Application {
 		children.add(ball.getGraphic());
 
 		Scene scene = new Scene(pane, 500, 500);
+		primaryStage.getIcons().add(icon);
 		primaryStage.setTitle("Colorball");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -198,10 +209,10 @@ public class Main extends Application {
 					ball.move(scene.getHeight() * 0.00025); // move the ball
 
 //					//normal color switch
-					if (attacker.getX() == scene.getWidth()) {
+					if (attacker.getX() >= scene.getWidth()) {
 						ball.setColor(attacker);
 					}
-					if (attacker.getX() == -attacker.getWidth()) {
+					if (attacker.getX() <= 0) {
 						ball.setColor(attacker);
 					}
 
@@ -212,7 +223,7 @@ public class Main extends Application {
 							gameProg++; // Currently Unused
 					}
 
-					sec = Math.floor(timeAlive / 60);
+					sec = timeAlive / 60.0;
 					String c = String.format("%.0f", sec);
 					timer.setText("Time: " + c);
 
@@ -244,7 +255,7 @@ public class Main extends Application {
 
 					// ability will spawn at random
 					Random rand = new Random();
-					//ability =  true; // for testing abilities uncomment this line
+					ability =  true; // for testing abilities uncomment this line
 					if (startcount[5] < sec) {
 						if (rand.nextInt(240) == 1 && !ability) {
 							spawnAbility(ball, attacker);
@@ -297,14 +308,15 @@ public class Main extends Application {
 						endScreen.setFont(hero);
 						endScreen.setScaleX(1);
 						endScreen.setScaleY(1);
-						endScreen.setText("Lol, you died\nYou were alive for " + sec
-								+ " seconds\nEnter your name to save your score");
+						endScreen.setText(String.format("Lol, you died\nYou were alive for"
+								+ " %.3f second%nEnter your name to save your score",sec));
 						endScreen.setX(55);
 						endScreen.setY(100);
 
 						endScreen.setTextAlignment(TextAlignment.CENTER);
 						// high score
-						PlayerName.setFont(hero);
+						//PlayerName.setFont(hero);
+						//PlayerName
 						PlayerName.setMaxSize(100, 30);
 						PlayerName.setMinSize(100, 30);
 						PlayerName.setTranslateX(250 - PlayerName.getMaxWidth() / 2);
@@ -383,7 +395,7 @@ public class Main extends Application {
 				if (!getReady) {
 					gameStart = true;
 				}
-
+				
 				if (gameEnd) {
 					reset(ball, attacker, pane, scene);
 					pane.getChildren().clear();
@@ -470,16 +482,24 @@ public class Main extends Application {
 		});
 
 		// end game menu
+		PlayerName.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event) {
+				PlayerName.selectAll();
+			}
+			
+		});
 		PlayerName.setOnKeyPressed(e -> {
 
 			Text t = new Text();
 			t.setFont(hero);
-			t.setX(260 - 120);
+			t.setX(260 - 130);
 			t.setY(50);
 			t.setText("Your score has been saved!");
 			if (e.getCode() == KeyCode.ENTER) {
 				if (!nameEntered) {
-					String adder = String.format("%s: %.0f", PlayerName.getText(), sec);
+					String adder = String.format("%s: %.3f", PlayerName.getText(), sec);
 					names.add(adder);
 					nameEntered = true;
 					//System.out.printf("I added %s%n", adder);
@@ -497,13 +517,18 @@ public class Main extends Application {
 			public void handle(MouseEvent event) {
 				pane.requestFocus();
 			}
-
 		});
 		pane.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W) {
 				ball.VyUp();
+				if (!getReady) {
+					gameStart = true;
+				}
 			} else if (e.getCode() == KeyCode.DOWN || e.getCode() == KeyCode.S) {
 				ball.VyDown();
+				if (!getReady) {
+					gameStart = true;
+				}
 			}
 			if (e.getCode() == KeyCode.SPACE) {
 				if (gameStart) {
@@ -563,11 +588,11 @@ public class Main extends Application {
 //					reset(ball, attacker, pane, scene);
 //				}
 //			}
-//			if (e.getCode() == KeyCode.N) {
-//				System.out.println("reverse");
-//				attacker.reverse();
-//				startcount[3] = 10 + sec;
-//			}
+			if (e.getCode() == KeyCode.N) {
+				System.out.println("reverse");
+				attacker.reverse();
+				startcount[3] = 10 + sec;
+			}
 //			if (e.getCode() == KeyCode.M) {
 //				System.out.println("flash");
 //				startcount[4] = 10 + sec;
