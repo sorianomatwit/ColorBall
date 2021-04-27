@@ -140,7 +140,7 @@ public class Player extends ColorPicker implements Activator{
 	}
 	
 	public void setColor(Wall w) {
-		c = (int) rand.nextInt(gameDiff);
+		c = (int) rand.nextInt(w.getchosenColors().size());
 		copyList(w.getchosenColors());
 		graphic.setFill(chosenColors.get(c));
 		gradient = 1;

@@ -32,11 +32,11 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	public static int startingLives = 10; // used to define lives
+	public static int startingLives = 25;//10; // used to define lives
 	public static int gameDiff = 3;// max difficulty is going to be 7
 	public static double sec;
 	public static int timeAlive = 0;
-	public static int temp = 0;
+	public static int begin = 0;
 	public boolean net;
 	public static boolean gameEnd = false;
 	public static boolean getReady = true;
@@ -44,7 +44,6 @@ public class Main extends Application {
 	public static boolean nameEntered = false;
 	public static boolean ability = false;
 	public static ArrayList<Node> mainmenu = new ArrayList<Node>();
-	public static ArrayList<Node> highscore = new ArrayList<Node>();
 	public static ArrayList<Node> children = new ArrayList<Node>();// game nodes so the player and wall andf health
 	public static ArrayList<String> names = new ArrayList<String>();
 	// so this is used to save al the main game stuff
@@ -62,9 +61,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// loading assets
-		FileInputStream fonts = new FileInputStream("assets/hero.ttf");
+		FileInputStream fonts = new FileInputStream("assets/04B_30__.TTF");
 		Font.loadFont(fonts, 14);
-		Font hero = new Font("hero", 18);
+		Font hero = new Font("04B", 15);
 		Media song = new Media(new File("assets/GameMusic.mp3").toURI().toString());
 		MediaPlayer gameMusic = new MediaPlayer(song);
 //		gameMusic.setAutoPlay(true);
@@ -92,20 +91,24 @@ public class Main extends Application {
 		// create and set text
 		Text title = new Text();
 		Text[] options = new Text[3];
+		Text instruct = new Text();
+		
+		
 		// options stuff
 		for (int i = 0; i < options.length; i++) {
 			options[i] = new Text();
-			options[i].setX(scene.getWidth() / 2 - 61);
+			options[i].setX(scene.getWidth() / 2 - 91);
 			options[i].setFont(hero);
-			options[i].setY(120 + 40 * (i + 1));
+			options[i].setY(110 + 40 * (i + 1));
 			options[i].setScaleX(2);
 			options[i].setScaleY(2);
 			options[i].setTextAlignment(TextAlignment.CENTER);
 		}
 
-		options[0].setText("      Start");
+		options[0].setText("   Start");
 		options[1].setText("View High Scores");
-		options[2].setText("       Quit");
+		options[2].setText("   Quit");
+		options[2].setTranslateX(5);
 		title.setText("ColorBall");
 
 		// title stuff
@@ -117,14 +120,15 @@ public class Main extends Application {
 		title.setTextAlignment(TextAlignment.CENTER);
 		
 		//instruction
-		Text instruct = new Text();
+		
 		instruct.setFont(hero);
-		instruct.setX(scene.getWidth() / 2 - 150);
-		instruct.setY(300);
+		instruct.setX(scene.getWidth() / 2 - 200);
+		instruct.setY(275);
 		instruct.setScaleX(1.05);
 		instruct.setScaleY(1.05);
 		instruct.setTextAlignment(TextAlignment.CENTER);
 		instruct.setText("Space: change direction of the Ball\nW or Up: move the Ball up\nS or Down: move Ball down");
+		
 		mainmenu.add(instruct);
 		mainmenu.add(title);
 		mainmenu.add(options[0]);
@@ -180,9 +184,9 @@ public class Main extends Application {
 					attacker.display();
 					ball.setY(scene);
 					attacker.setX(scene.getWidth() - attacker.getWidth());
-					if (temp == 0) {
+					if (begin == 0) {
 						ball.setColor(attacker);
-						temp++;
+						begin++;
 					}
 
 				}
@@ -295,7 +299,7 @@ public class Main extends Application {
 						endScreen.setScaleY(1);
 						endScreen.setText("Lol, you died\nYou were alive for " + sec
 								+ " seconds\nEnter your name to save your score");
-						endScreen.setX(100);
+						endScreen.setX(55);
 						endScreen.setY(100);
 
 						endScreen.setTextAlignment(TextAlignment.CENTER);
@@ -303,13 +307,13 @@ public class Main extends Application {
 						PlayerName.setFont(hero);
 						PlayerName.setMaxSize(100, 30);
 						PlayerName.setMinSize(100, 30);
-						PlayerName.setTranslateX(260 - PlayerName.getMaxWidth() / 2);
+						PlayerName.setTranslateX(250 - PlayerName.getMaxWidth() / 2);
 						PlayerName.setTranslateY(150);
 						PlayerName.setText("Name");
 						// option stuff
-						options[0].setX(260 - 65);
-						options[1].setX(260 - 81);
-						options[2].setX(260 - 65);
+						options[0].setX(175);
+						options[1].setX(153);
+						options[2].setX(175);
 						for (int i = 0; i < options.length; i++) {
 							options[i].setFont(hero);
 							options[i].setY(180 + 20 * (i + 1));
@@ -336,7 +340,7 @@ public class Main extends Application {
 		pane.requestFocus();
 
 		/// action code
-
+		
 		// start menu code
 		for (int i = 0; i < options.length; i++) {
 			Text t = options[i];
@@ -403,7 +407,7 @@ public class Main extends Application {
 				if (names.size() == 0) {
 					String ms = "There are no highscores";
 					listofscores.setText(ms);
-					listofscores.setTranslateX(scene.getWidth() / 2 - 100);
+					listofscores.setTranslateX(scene.getWidth() / 2 - 115);
 				} else {
 					String s = "";
 					Collections.sort(names, new Comparator<String>() {
@@ -429,7 +433,7 @@ public class Main extends Application {
 									l++;
 								}
 							}
-							System.out.printf("%d compareto %d %n", b, a);
+							//System.out.printf("%d compareto %d %n", b, a);
 							return Integer.valueOf(b.compareTo(a));
 						}
 					});
@@ -478,7 +482,7 @@ public class Main extends Application {
 					String adder = String.format("%s: %.0f", PlayerName.getText(), sec);
 					names.add(adder);
 					nameEntered = true;
-					System.out.printf("I added %s%n", adder);
+					//System.out.printf("I added %s%n", adder);
 					pane.getChildren().add(t);
 				}
 
@@ -597,7 +601,7 @@ public class Main extends Application {
 		p.reset(gameDiff,s);
 		w.reset(gameDiff,s);
 		p.setColor(w);
-		temp = 0;
+		begin = 0;
 		for(int i = 0; i < startcount.length;i++) {
 			startcount[i] = 0;
 		}
@@ -609,19 +613,19 @@ public class Main extends Application {
 		int prob = rand.nextInt(1001);
 
 		if (prob < 73) {
-			System.out.println("invisible");
+			//System.out.println("invisible");
 			p.invisible();
 			startcount[0] = sec + 1;
 		} else if (prob < 653) {
-			System.out.println("bounce");
+			//System.out.println("bounce");
 			w.setActive(true);
 			startcount[1] = sec + 10;
 		} else if (prob < 877) {
-			System.out.println("reverse");
+			//System.out.println("reverse");
 			w.reverse();
 			startcount[3] = 6 + sec;
 		} else {
-			System.out.println("invincible");
+			//System.out.println("invincible");
 			isInvince = true;
 			startcount[2] = 6 + sec;
 		}
