@@ -11,7 +11,6 @@ public class Wall extends ColorPicker implements Activator {
 	private double hspd;
 	private double vspd = 4;
 	private ArrayList<Double> yPos;
-	private Player target;
 	private double start;
 
 	private int maxdifficulty = 6;
@@ -86,7 +85,6 @@ public class Wall extends ColorPicker implements Activator {
 				p.reSelect(numOfColors);
 			}
 		}
-		target = p;
 	}
 	// Check collision
 
