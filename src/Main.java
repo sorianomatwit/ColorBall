@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -401,11 +402,13 @@ public class Main extends Application {
 					pane.getChildren().addAll(mainmenu);
 
 				}
+
 				pane.getChildren().clear();
 				Text listofscores = new Text();
 				listofscores.setFont(hero);
-				listofscores.setTextAlignment(TextAlignment.RIGHT);
-
+				listofscores.setTextAlignment(TextAlignment.CENTER);
+				listofscores.setScaleX(1.5);
+				listofscores.setScaleY(1.5);
 				listofscores.setTranslateY(100);
 				if (names.size() == 0) {
 					String ms = "There are no highscores";
@@ -481,16 +484,22 @@ public class Main extends Application {
 			}
 			
 		});
+		
 		PlayerName.setOnKeyPressed(e -> {
-
+			
 			Text t = new Text();
 			t.setFont(hero);
 			t.setX(260 - 130);
 			t.setY(50);
 			t.setText("Your score has been saved!");
+			
 			if (e.getCode() == KeyCode.ENTER) {
+				String name = "";
+				for(int i = 0; i < 5;i++) {
+					name += PlayerName.getText().charAt(i);
+				}
 				if (!nameEntered) {
-					String adder = String.format("%s: %.3f", PlayerName.getText(), sec);
+					String adder = String.format("%s: %.3f", name, sec);
 					names.add(adder);
 					nameEntered = true;
 					//System.out.printf("I added %s%n", adder);
@@ -579,11 +588,11 @@ public class Main extends Application {
 //					reset(ball, attacker, pane, scene);
 //				}
 //			}
-			if (e.getCode() == KeyCode.N) {
-				System.out.println("reverse");
-				attacker.reverse();
-				startcount[3] = 10 + sec;
-			}
+//			if (e.getCode() == KeyCode.N) {
+//				System.out.println("reverse");
+//				attacker.reverse();
+//				startcount[3] = 10 + sec;
+//			}
 //			if (e.getCode() == KeyCode.M) {
 //				System.out.println("flash");
 //				startcount[4] = 10 + sec;
