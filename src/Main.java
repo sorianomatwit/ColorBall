@@ -28,7 +28,7 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	public static int startingLives = 100;//10; // used to define lives
+	public static int startingLives = 3;//10; // used to define lives
 	public static int gameDiff = 3;// max difficulty is going to be 7
 	public static double sec;
 	public static int timeAlive = 0;
