@@ -41,7 +41,7 @@ public class Main extends Application {
 	public static boolean ability = false;
 	
 	public static ArrayList<Node> mainmenu = new ArrayList<Node>();
-	public static ArrayList<Node> children = new ArrayList<Node>(); // game nodes so the player and wall andf health  
+	public static ArrayList<Node> gamescreen = new ArrayList<Node>(); // game nodes so the player and wall andf health  
 	public static ArrayList<String> names = new ArrayList<String>();
 	
 	// so this is used to save al the main game stuff
@@ -80,8 +80,8 @@ public class Main extends Application {
 		Wall attacker = new Wall(gameDiff);
 		Pane pane = new Pane();
 
-		children.addAll(attacker.getGraphic());
-		children.add(ball.getGraphic());
+		gamescreen.addAll(attacker.getGraphic());
+		gamescreen.add(ball.getGraphic());
 
 		Scene scene = new Scene(pane, 500, 500);
 		primaryStage.getIcons().add(icon);
@@ -154,8 +154,8 @@ public class Main extends Application {
 		attacker.setHeights(scene);
 		attacker.setSpd(scene.getWidth() * 0.01);
 
-		children.add(hp);
-		children.add(timer);
+		gamescreen.add(hp);
+		gamescreen.add(timer);
 
 		if (!gameStart) {
 			pane.getChildren().addAll(mainmenu);
@@ -370,7 +370,7 @@ public class Main extends Application {
 					reset(ball, attacker, pane, scene);
 				}
 				pane.getChildren().clear();
-				pane.getChildren().addAll(children);
+				pane.getChildren().addAll(gamescreen);
 				startcount[5] = 3;
 				if (getReady) {
 
